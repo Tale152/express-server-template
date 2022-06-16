@@ -1,0 +1,20 @@
+{
+  "name": "express-server-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tale152/express-server-template.git"
+  },
+  "keywords": [],
+  "author": "Alessandro Talmi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tale152/express-server-template/issues"
+  },
+  "homepage": "https://github.com/Tale152/express-server-template#readme"
+}
