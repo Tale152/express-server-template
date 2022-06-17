@@ -1,5 +1,6 @@
 import Token from "../entities/Token"
 import User from "../entities/User"
+import UserPersistence from "../interface_adapters/persistence/UserPersistence"
 import { hasValue } from "../utils/checks/valueChecks"
 
 export default class UserUseCases{
