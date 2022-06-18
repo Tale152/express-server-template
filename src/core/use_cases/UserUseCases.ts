@@ -17,26 +17,34 @@ export default class UserUseCases {
         return new UserUseCases(persistence, tokenGenerator, encryptionHandler)
     }
 
-    register(user: User): Token | undefined {
-        if(this.persistence.exists(user.username)){
-            return undefined
-        } else {
-            this.persistence.createNew(this.encryptUser(user))
-            return Token.createInstance(this.tokenGenerator.generate(user.username))
-        }
+    register(user: User, onUserAlreadyExists: () => void, onSuccess: (token: Token) => void, onError: () => void): void {
+        this.persistence.exists(user.username).then(userAlreadyExists => {
+            if(userAlreadyExists){
+                onUserAlreadyExists()
+            } else {
+                encryptUser(user, this.encryptionHandler).then(encryptedUser => {
+                    this.persistence.createNew(encryptedUser).then(() => {
+                        onSuccess(Token.createInstance(this.tokenGenerator.generate(user.username)))
+                    }, () => onError())
+                }, () => onError())
+            }
+        }, () => onError())
     }
 
-    login(user: User): Token | undefined {
-        var persistedUser: User | undefined = this.persistence.getByUsername(user.username)
-        if(persistedUser === undefined){
-            return undefined
-        } else {
-            return this.encryptionHandler.compare(user.password, persistedUser.password) ? Token.createInstance(this.tokenGenerator.generate(user.username)) : undefined
-        }
+    login(user: User, onInvalidCredentials: () => void, onSuccess: (token: Token) => void, onError: () => void): void {
+        this.persistence.getByUsername(user.username).then(retreivedUser => {
+            if(retreivedUser === undefined){
+                onInvalidCredentials()
+            } else {
+                this.encryptionHandler.compare(user.password, retreivedUser.password).then(comparationResult => {
+                    comparationResult ? onSuccess(Token.createInstance(this.tokenGenerator.generate(user.username))) : onInvalidCredentials()
+                }, () => onError())
+            }
+        }, () => onError())
     }
 
-    private encryptUser(user: User): User {
-        return User.createInstance(user.username, this.encryptionHandler.encrypt(user.password))
-    }
+}
 
+async function encryptUser(user: User, encryptionHandler: EncryptionHandler): Promise<User> {
+    return User.createInstance(user.username, await encryptionHandler.encrypt(user.password))
 }
