@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import TokenGenerator from "../interface_adapters/TokenGenerator"
+import TokenGenerator from "../../interface_adapters/security/TokenGenerator"
 
 export default class JwtTokenGenerator implements TokenGenerator{
 

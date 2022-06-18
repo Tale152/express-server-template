@@ -1,36 +1,42 @@
 import Token from "../entities/Token"
 import User from "../entities/User"
+import EncryptionHandler from "../interface_adapters/security/EncryptionHandler"
 import UserPersistence from "../interface_adapters/persistence/UserPersistence"
-import TokenGenerator from "../interface_adapters/TokenGenerator"
+import TokenGenerator from "../interface_adapters/security/TokenGenerator"
 import { hasValue } from "../utils/checks/valueChecks"
 
-export default class UserUseCases{
+export default class UserUseCases {
 
-    private constructor(private persistence: UserPersistence, private tokenGenerator: TokenGenerator){
-        if(!hasValue(persistence)){
-            throw new Error("The provided UserPersistence is " + persistence)
-        }
-        if(!hasValue(tokenGenerator)){
-            throw new Error("The provided TokenGenerator is " + tokenGenerator)
+    private constructor(private persistence: UserPersistence, private tokenGenerator: TokenGenerator, private encryptionHandler: EncryptionHandler) {
+        if(!hasValue(persistence) || !hasValue(tokenGenerator) || !hasValue(encryptionHandler)){
+            throw new Error("At least one of the provided arguments is undefined or null")
         }
     }
 
-    static createInstance(persistence: UserPersistence, tokenGenerator: TokenGenerator){
-        return new UserUseCases(persistence, tokenGenerator)
+    static createInstance(persistence: UserPersistence, tokenGenerator: TokenGenerator, encryptionHandler: EncryptionHandler) {
+        return new UserUseCases(persistence, tokenGenerator, encryptionHandler)
     }
 
-    exists(username: string): boolean{
-        return this.persistence.exists(username)
+    register(user: User): Token | undefined {
+        if(this.persistence.exists(user.username)){
+            return undefined
+        } else {
+            this.persistence.createNew(this.encryptUser(user))
+            return Token.createInstance(this.tokenGenerator.generate(user.username))
+        }
     }
 
-    register(user: User): Token{
-        this.persistence.register(user)
-        return Token.createInstance(this.tokenGenerator.generate(user.username))
+    login(user: User): Token | undefined {
+        var persistedUser: User | undefined = this.persistence.getByUsername(user.username)
+        if(persistedUser === undefined){
+            return undefined
+        } else {
+            return this.encryptionHandler.compare(user.password, persistedUser.password) ? Token.createInstance(this.tokenGenerator.generate(user.username)) : undefined
+        }
     }
 
-    login(user: User): Token{
-        this.persistence.login(user)
-        return Token.createInstance(this.tokenGenerator.generate(user.username))
+    private encryptUser(user: User): User {
+        return User.createInstance(user.username, this.encryptionHandler.encrypt(user.password))
     }
 
 }

@@ -4,8 +4,8 @@ export default interface UserPersistence {
 
     exists: (username: string) => boolean
 
-    register: (user: User) => void
+    createNew: (user: User) => void
 
-    login: (user: User) => void
+    getByUsername: (username: string) => User | undefined
 
 }
