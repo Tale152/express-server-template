@@ -1,7 +1,7 @@
 export default interface EncryptionHandler {
 
-    encrypt: (str: string) => string
+    encrypt: (str: string) => Promise<string>
 
-    compare: (comparingString: string, targetString: string) => boolean
+    compare: (comparingString: string, targetString: string) => Promise<boolean>
 
 }
