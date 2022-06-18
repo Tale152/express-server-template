@@ -3,6 +3,12 @@ import EncryptionHandler from "../../interface_adapters/security/EncryptionHandl
 
 export default class BcryptEncryptionHandler implements EncryptionHandler{
 
+    private constructor(){}
+
+    static createInstance(): BcryptEncryptionHandler{
+        return new BcryptEncryptionHandler()
+    }
+
     encrypt(str: string): Promise<string>{
         return bcrypt.hash(str, process.env.ENCRYPTION_SALT !== undefined ? process.env.ENCRYPTION_SALT : "")
     }
