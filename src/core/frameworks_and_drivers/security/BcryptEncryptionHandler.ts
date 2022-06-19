@@ -10,7 +10,7 @@ export default class BcryptEncryptionHandler implements EncryptionHandler{
     }
 
     encrypt(str: string): Promise<string>{
-        return bcrypt.hash(str, process.env.ENCRYPTION_SALT !== undefined ? process.env.ENCRYPTION_SALT : "")
+        return bcrypt.hash(str, process.env.ENCRYPTION_SALT !== undefined ? parseInt(process.env.ENCRYPTION_SALT) : 10)
     }
 
     compare(data: string, encrypted: string): Promise<boolean>{
