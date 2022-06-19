@@ -7,8 +7,8 @@ import { isStringEmpty } from "../../core/utils/checks/stringChecks"
 
 export default function userRegisterHandler(userUseCases: UserUseCases): (req: Request, res: Response) => Promise<void>{
     return async (req: Request, res: Response) => {
-        const username = req.body.username
-        const password = req.body.password
+        const username = req.body.username.trim()
+        const password = req.body.password.trim()
         if(areParametersValid(username, password)){
             userUseCases.register(
                 User.createInstance(username, password),
