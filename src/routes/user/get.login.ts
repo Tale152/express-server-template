@@ -3,15 +3,14 @@ import { Request, Response } from "express"
 import Token from "../../core/entities/Token"
 import User from "../../core/entities/User"
 import UserUseCases from "../../core/use_cases/UserUseCases"
-import { isStringEmpty } from "../../core/utils/checks/stringChecks"
 
 export default function userLoginHandler(userUseCases: UserUseCases): (req: Request, res: Response) => Promise<void>{
     return async (req: Request, res: Response) => {
-        const username = req.body.username
-        const password = req.body.password
-        if(areParametersValid(username, password)){
+        const username = req.query.username
+        const password = req.query.password
+        if(typeof username === "string" && typeof password === "string" && username.trim() !== "" && password.trim() !== ""){
             userUseCases.login(
-                User.createInstance(username, password),
+                User.createInstance(username.trim(), password.trim()),
                 onInvalidCredentials(res), 
                 onSuccess(res), 
                 onError(res)
@@ -20,10 +19,6 @@ export default function userLoginHandler(userUseCases: UserUseCases): (req: Requ
             res.status(400).send()
         }  
     }
-}
-
-function areParametersValid(username: string, password: string): boolean{
-    return !isStringEmpty(username) && !isStringEmpty(password)
 }
 
 function onInvalidCredentials(res: Response): () => Promise<void>{

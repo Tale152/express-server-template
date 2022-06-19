@@ -15,6 +15,6 @@ export default function bindRoutes(server: Express): void{
 
     server.post("/user/register", userRegisterHandler(userUseCases))
 
-    server.post("/user/login", userLoginHandler(userUseCases))
+    server.get("/user/login", userLoginHandler(userUseCases))
 
 }
