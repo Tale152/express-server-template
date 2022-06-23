@@ -1,10 +1,11 @@
-import { Express } from "express"
+import { Express, Request, Response } from "express"
 import MongooseUserPersistence from "../core/frameworks_and_drivers/persistence/MongooseUserPersistence"
 import BcryptEncryptionHandler from "../core/frameworks_and_drivers/security/BcryptEncryptionHandler"
 import JwtTokenGenerator from "../core/frameworks_and_drivers/security/JwtTokenGenerator"
 import UserUseCases from "../core/use_cases/UserUseCases"
 import userRegisterHandler from "./user/post.register"
 import userLoginHandler from "./user/get.login"
+import userGetByHandler from "./user/get.userBy"
 
 const tokenGenerator = JwtTokenGenerator.createInstance()
 const encryptionHandler = BcryptEncryptionHandler.createInstance()
@@ -17,4 +18,19 @@ export default function bindRoutes(server: Express): void{
 
     server.get("/user/login", userLoginHandler(userUseCases))
 
+    server.get("/user/get-by", verifyToken, userGetByHandler(userUseCases))
+
+}
+
+const verifyToken = (req: Request, res: Response, next: any) => {
+    const token = req.headers.token
+    if(token !== undefined && typeof token === "string"){
+        const decodedToken = tokenGenerator.decode(token)
+        if(decodedToken !== undefined){
+            req.query.requestUsername = decodedToken.trim()
+            next()
+            return
+        }
+    }
+    res.sendStatus(401)
 }
