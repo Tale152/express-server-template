@@ -6,6 +6,8 @@ export default interface UserPersistence {
 
     createNew: (user: User) => Promise<boolean>
 
-    getByUsername: (username: string) => Promise<User | undefined>
+    getByUsername: (username: string) => Promise<User|undefined>
+
+    getById: (id: string) => Promise<User|undefined>
 
 }
