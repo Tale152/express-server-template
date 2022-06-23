@@ -1,17 +1,21 @@
 import jwt from "jsonwebtoken"
+import EnvVariablesSingleton from "../../../setup/EnvVariablesSingleton"
 import TokenGenerator from "../../interface_adapters/security/TokenGenerator"
 
 export default class JwtTokenGenerator implements TokenGenerator{
 
-    private constructor(){}
+    private secret: string
+
+    private constructor(){
+        this.secret = EnvVariablesSingleton.instance.tokenSecret
+    }
 
     static createInstance(){
         return new JwtTokenGenerator()
     }
 
     generate(str: string): string{
-        //token presence gets checked when launching server so it's impossible for it to be undefined but the check has to be performed to make Typescript happy
-        return jwt.sign(str, process.env.TOKEN_SECRET !== undefined ? process.env.TOKEN_SECRET : "")
+        return jwt.sign(str, this.secret)
     }
     
 }

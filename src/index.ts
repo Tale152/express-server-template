@@ -1,18 +1,16 @@
-import dotenv from "dotenv"
 import mongoose from "mongoose"
 import server from "./server"
+import EnvVariablesSingleton from "./setup/EnvVariablesSingleton"
 
-dotenv.config()
-if(process.env.DB_ADDRESS !== undefined){
-    mongoose
-    .connect(process.env.DB_ADDRESS)
+const envVariables = EnvVariablesSingleton.instance
+mongoose
+    .connect(envVariables.dbAddress)
     .then(async () => {
         console.log("Connection to DB succesful")
-        server.listen(process.env.PORT, () => {
-            console.log("Server is listening on port " + process.env.PORT)
+        server.listen(envVariables.port, () => {
+            console.log("Server is listening on port " + envVariables.port)
         })
     })
     .catch(err => {
-        console.log("Error connecting to DB at " + process.env.DB_ADDRESS + ": " + err.message)
+        console.log("Error connecting to DB at " + envVariables.dbAddress + ": " + err.message)
     })
-}
