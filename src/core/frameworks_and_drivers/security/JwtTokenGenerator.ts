@@ -17,5 +17,15 @@ export default class JwtTokenGenerator implements TokenGenerator{
     generate(str: string): string{
         return jwt.sign(str, this.secret)
     }
+
+    decode(token: string): string | undefined{
+        try {
+            const decoded = jwt.verify(token, this.secret)
+            return typeof decoded === "string" ? decoded : undefined
+        }
+        catch(ex){
+            return undefined
+        }
+    }
     
 }
