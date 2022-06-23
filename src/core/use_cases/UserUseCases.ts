@@ -28,7 +28,7 @@ export default class UserUseCases {
                     }, () => onError())
                 }, () => onError())
             }
-        }, () => onError())
+        }, onError)
     }
 
     login(user: User, onInvalidCredentials: () => void, onSuccess: (token: Token) => void, onError: () => void): void {
@@ -40,7 +40,13 @@ export default class UserUseCases {
                     comparationResult ? onSuccess(Token.createInstance(this.tokenGenerator.generate(user.username))) : onInvalidCredentials()
                 }, () => onError())
             }
-        }, () => onError())
+        }, onError)
+    }
+
+    getById(id: string, onFound: (user: User) => void, onNotFound: () => void, onError: () => void): void {
+        this.persistence.getById(id).then(retrievedUser => {
+            retrievedUser === undefined ? onNotFound() : onFound(retrievedUser)
+        }, onError)
     }
 
 }
