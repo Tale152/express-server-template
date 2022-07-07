@@ -1,0 +1,12 @@
+.dockerignore
+Dockerfile
+LICENSE
+package-lock.json
+package.json
+README.md
+tsconfig.json
+.env
+dist/*
+node_modules/*
+.eslintrc.json
+.eslintignore
