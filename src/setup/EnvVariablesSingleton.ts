@@ -7,6 +7,7 @@ export default class EnvVariablesSingleton{
     private db: string
     private salt: number
     private secret: string
+    private validity: string
 
     private constructor(){
 
@@ -32,6 +33,11 @@ export default class EnvVariablesSingleton{
         } else {
             throw Error ("There is something wrong with the environment variable TOKEN_SECRET: " + process.env.TOKEN_SECRET)
         }
+        if(process.env.TOKEN_VALIDITY !== undefined && typeof process.env.TOKEN_VALIDITY === "string"){
+            this.validity = process.env.TOKEN_VALIDITY
+        } else {
+            throw Error ("There is something wrong with the environment variable TOKEN_VALIDITY: " + process.env.TOKEN_VALIDITY)
+        }
     }
 
     static get instance(): EnvVariablesSingleton{
@@ -55,6 +61,10 @@ export default class EnvVariablesSingleton{
 
     get tokenSecret(): string{
         return this.secret
+    }
+
+    get tokenValidity(): string{
+        return this.validity
     }
 
 }

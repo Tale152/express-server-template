@@ -1,7 +1,9 @@
+import { EncryptedToken, DecryptedToken } from "../../entities/Token"
+
 export default interface TokenGenerator {
 
-    generate: (str: string) => string
+    encrypt: (token: DecryptedToken) => EncryptedToken
 
-    decode: (token: string) => string | undefined
+    decode: (token: EncryptedToken) => DecryptedToken | undefined
 
 }

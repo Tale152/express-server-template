@@ -6,6 +6,7 @@ import UserUseCases from "../core/use_cases/UserUseCases"
 import userRegisterHandler from "./user/post.register"
 import userLoginHandler from "./user/get.login"
 import userGetByHandler from "./user/get.userBy"
+import { EncryptedToken } from "../core/entities/Token"
 
 const tokenGenerator = JwtTokenGenerator.createInstance()
 const encryptionHandler = BcryptEncryptionHandler.createInstance()
@@ -25,9 +26,9 @@ export default function bindRoutes(server: Express): void{
 const verifyToken = (req: Request, res: Response, next: any) => {
     const token = req.headers.token
     if(token !== undefined && typeof token === "string"){
-        const decodedToken = tokenGenerator.decode(token)
+        const decodedToken = tokenGenerator.decode(EncryptedToken.createInstance(token))
         if(decodedToken !== undefined){
-            req.query.requestUsername = decodedToken.trim()
+            req.query.requestUsername = decodedToken.username.trim()
             next()
             return
         }

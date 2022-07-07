@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-import Token from "../../core/entities/Token"
+import { EncryptedToken } from "../../core/entities/Token"
 import User from "../../core/entities/User"
 import UserUseCases from "../../core/use_cases/UserUseCases"
 import { isStringEmpty } from "../../core/utils/checks/stringChecks"
@@ -32,9 +32,9 @@ function onUserAlreadyExists(res: Response): () => Promise<void>{
     }
 }
 
-function onSuccess(res: Response): (token: Token) => Promise<void>{
-    return async (token: Token) => {
-        res.status(201).json({token: token}).send()
+function onSuccess(res: Response): (token: EncryptedToken) => Promise<void>{
+    return async (token: EncryptedToken) => {
+        res.status(201).json({token: token.value}).send()
     }
 }
 

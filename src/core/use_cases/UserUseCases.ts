@@ -1,4 +1,4 @@
-import Token from "../entities/Token"
+import { EncryptedToken, DecryptedToken } from "../entities/Token"
 import User from "../entities/User"
 import EncryptionHandler from "../interface_adapters/security/EncryptionHandler"
 import UserPersistence from "../interface_adapters/persistence/UserPersistence"
@@ -17,27 +17,33 @@ export default class UserUseCases {
         return new UserUseCases(persistence, tokenGenerator, encryptionHandler)
     }
 
-    register(user: User, onUserAlreadyExists: () => void, onSuccess: (token: Token) => void, onError: () => void): void {
+    register(user: User, onUserAlreadyExists: () => void, onSuccess: (token: EncryptedToken) => void, onError: () => void): void {
         this.persistence.exists(user.username).then(userAlreadyExists => {
             if(userAlreadyExists){
                 onUserAlreadyExists()
             } else {
                 encryptUser(user, this.encryptionHandler).then(encryptedUser => {
                     this.persistence.createNew(encryptedUser).then(() => {
-                        onSuccess(Token.createInstance(this.tokenGenerator.generate(user.username)))
+                        const decryptedToken = DecryptedToken.createInstance(encryptedUser.username)
+                        onSuccess(this.tokenGenerator.encrypt(decryptedToken))
                     }, () => onError())
                 }, () => onError())
             }
         }, onError)
     }
 
-    login(user: User, onInvalidCredentials: () => void, onSuccess: (token: Token) => void, onError: () => void): void {
+    login(user: User, onInvalidCredentials: () => void, onSuccess: (token: EncryptedToken) => void, onError: () => void): void {
         this.persistence.getByUsername(user.username).then(retreivedUser => {
             if(retreivedUser === undefined){
                 onInvalidCredentials()
             } else {
                 this.encryptionHandler.compare(user.password, retreivedUser.password).then(comparationResult => {
-                    comparationResult ? onSuccess(Token.createInstance(this.tokenGenerator.generate(user.username))) : onInvalidCredentials()
+                    if(comparationResult){
+                        const decryptedToken = DecryptedToken.createInstance(user.username)
+                        onSuccess(this.tokenGenerator.encrypt(decryptedToken))
+                    } else {
+                        onInvalidCredentials()
+                    }
                 }, () => onError())
             }
         }, onError)

@@ -1,6 +1,6 @@
 import { isStringEmpty } from "../utils/checks/stringChecks"
 
-export default class Token{
+export class EncryptedToken{
 
     private constructor(private val: string){
         if(isStringEmpty(val)){
@@ -9,11 +9,39 @@ export default class Token{
     }
 
     static createInstance(value: string){
-        return new Token(value)
+        return new EncryptedToken(value)
     }
 
     get value(): string {
         return this.val
     }
 
+}
+
+export class DecryptedToken{
+
+    private constructor(private usr: string){
+        if(isStringEmpty(usr)){
+            throw new Error("The value of the username has to be valid. Provided value: " + usr)
+        }
+    }
+
+    static createInstance(usr: string){
+        return new DecryptedToken(usr)
+    }
+
+    get username(): string{
+        return this.usr
+    }
+
+    get payload(): DecryptedTokenPayload{
+        return {
+            username : this.usr
+        }
+    }
+
+}
+
+interface DecryptedTokenPayload{
+    username: string
 }
