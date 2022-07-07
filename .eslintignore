@@ -1,3 +1,4 @@
+.github/*
 .dockerignore
 Dockerfile
 LICENSE
