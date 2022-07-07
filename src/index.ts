@@ -13,6 +13,9 @@ mongoose
     })
     .catch((err) => {
       console.log(
-          'Error connecting to DB at ' + envVariables.dbAddress + ': ' + err.message,
+          'Error connecting to DB at ' +
+        envVariables.dbAddress +
+        ': ' +
+        err.message,
       );
     });
