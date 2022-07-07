@@ -6,17 +6,17 @@ import UserUseCases from '../../core/use_cases/UserUseCases';
 import {isStringEmpty} from '../../core/utils/checks/stringChecks';
 
 export default function userRegisterHandler(
-    userUseCases: UserUseCases,
+  userUseCases: UserUseCases,
 ): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
     const username = req.body.username.trim();
     const password = req.body.password.trim();
     if (areParametersValid(username, password)) {
       userUseCases.register(
-          User.createInstance(username, password),
-          onUserAlreadyExists(res),
-          onSuccess(res),
-          onError(res),
+        User.createInstance(username, password),
+        onUserAlreadyExists(res),
+        onSuccess(res),
+        onError(res),
       );
     } else {
       res.status(400).send();

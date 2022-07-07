@@ -12,9 +12,9 @@ const tokenGenerator = JwtTokenGenerator.createInstance();
 const encryptionHandler = BcryptEncryptionHandler.createInstance();
 const userPersistence = MongooseUserPersistence.createInstance();
 const userUseCases = UserUseCases.createInstance(
-    userPersistence,
-    tokenGenerator,
-    encryptionHandler,
+  userPersistence,
+  tokenGenerator,
+  encryptionHandler,
 );
 
 export default function bindRoutes(server: Express): void {
@@ -29,7 +29,7 @@ const verifyToken = (req: Request, res: Response, next: any) => {
   const token = req.headers.token;
   if (token !== undefined && typeof token === 'string') {
     const decodedToken = tokenGenerator.decode(
-        EncryptedToken.createInstance(token),
+      EncryptedToken.createInstance(token),
     );
     if (decodedToken !== undefined) {
       req.query.requestUsername = decodedToken.username.trim();

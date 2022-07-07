@@ -4,16 +4,16 @@ import User from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 
 export default function userGetByHandler(
-    userUseCases: UserUseCases,
+  userUseCases: UserUseCases,
 ): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
     const id = req.query.id;
     if (typeof id === 'string' && id.trim() !== '') {
       userUseCases.getById(
-          id.trim(),
-          onFound(res),
-          onNotFound(res),
-          onError(res),
+        id.trim(),
+        onFound(res),
+        onNotFound(res),
+        onError(res),
       );
     } else {
       res.status(400).send();

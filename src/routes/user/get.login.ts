@@ -5,7 +5,7 @@ import User from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 
 export default function userLoginHandler(
-    userUseCases: UserUseCases,
+  userUseCases: UserUseCases,
 ): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
     const username = req.query.username;
@@ -17,10 +17,10 @@ export default function userLoginHandler(
       password.trim() !== ''
     ) {
       userUseCases.login(
-          User.createInstance(username.trim(), password.trim()),
-          onInvalidCredentials(res),
-          onSuccess(res),
-          onError(res),
+        User.createInstance(username.trim(), password.trim()),
+        onInvalidCredentials(res),
+        onSuccess(res),
+        onError(res),
       );
     } else {
       res.status(400).send();
