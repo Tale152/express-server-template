@@ -20,6 +20,6 @@ module.exports = {
         "indent": "off",
         "@typescript-eslint/indent": ["error", 2],
         "max-len": [2, { code: 80, ignorePattern: '^import .*' }],
-        "operator-linebreak": ["after", { "overrides": { "?": "before", ":": "before" } }]
+        "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
     }
 }
