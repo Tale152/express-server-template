@@ -1,4 +1,4 @@
-name: Auto approve PRs by dependabot
+name: Auto approve dependabot
 
 on: pull_request_target
 
