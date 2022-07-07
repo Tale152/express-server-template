@@ -24,7 +24,7 @@ export default class EnvVariablesSingleton {
     dotenv.config();
     this.envPort = this.getNum(process.env.PORT, 'PORT');
     this.db = this.getStr(process.env.DB_ADDRESS, 'DB_ADDRESS');
-    this.salt = this.getNum(process.env.SALT, 'ENCRYPTION_SALT');
+    this.salt = this.getNum(process.env.ENCRYPTION_SALT, 'ENCRYPTION_SALT');
     this.secret = this.getStr(process.env.TOKEN_SECRET, 'TOKEN_SECRET');
     this.validity = this.getStr(process.env.TOKEN_VALIDITY, 'TOKEN_VALIDITY');
   }
@@ -67,7 +67,9 @@ export default class EnvVariablesSingleton {
    * @return {string} the string created using the provided arguments
    */
   private errorString(v: string | undefined, name: string): string {
-    return 'Something is wrong with the environment variable' + name + ': ' + v;
+    return (
+      'Something is wrong with the environment variable ' + name + ': ' + v
+    );
   }
 
   /**
