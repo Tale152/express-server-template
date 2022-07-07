@@ -1,11 +1,11 @@
-import express, { Express } from "express"
+import express, {Express} from 'express';
 
-import { setupServer } from "./setup/setup"
-import bindRoutes from "./routes/routes"
+import {setupServer} from './setup/setup';
+import bindRoutes from './routes/routes';
 
-const server: Express = express()
+const server: Express = express();
 
-setupServer(server)
-bindRoutes(server)
+setupServer(server);
+bindRoutes(server);
 
-export default server
+export default server;
