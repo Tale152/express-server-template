@@ -9,3 +9,4 @@ README
 Dockerfile
 .dockerignore
 .eslint*
+.editorconfig
