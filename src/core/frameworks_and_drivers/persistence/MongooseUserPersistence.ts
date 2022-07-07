@@ -10,9 +10,7 @@ export default class MongooseUserPersistence implements UserPersistence {
   }
 
   exists(username: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.getByUsername(username).then((user) => resolve(user !== undefined));
-    });
+    return new Promise((resolve) => {this.getByUsername(username).then((user) => resolve(user !== undefined));});
   }
 
   createNew(user: User): Promise<boolean> {

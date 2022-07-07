@@ -1,4 +1,4 @@
-name: php-cs-fixer
+name: Lint on commit
 
 on:
   pull_request:
