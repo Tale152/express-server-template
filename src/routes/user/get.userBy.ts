@@ -3,7 +3,9 @@ import {Request, Response} from 'express';
 import User from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 
-export default function userGetByHandler(userUseCases: UserUseCases): (req: Request, res: Response) => Promise<void> {
+export default function userGetByHandler(
+    userUseCases: UserUseCases,
+): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
     const id = req.query.id;
     if (typeof id === 'string' && id.trim() !== '') {
@@ -21,9 +23,7 @@ export default function userGetByHandler(userUseCases: UserUseCases): (req: Requ
 
 function onFound(res: Response): (user: User) => Promise<void> {
   return async (user: User) => {
-    res.status(200)
-        .json({username: user.username})
-        .send();
+    res.status(200).json({username: user.username}).send();
   };
 }
 

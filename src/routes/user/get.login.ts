@@ -4,11 +4,18 @@ import {EncryptedToken} from '../../core/entities/Token';
 import User from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 
-export default function userLoginHandler(userUseCases: UserUseCases): (req: Request, res: Response) => Promise<void> {
+export default function userLoginHandler(
+    userUseCases: UserUseCases,
+): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
     const username = req.query.username;
     const password = req.query.password;
-    if (typeof username === 'string' && typeof password === 'string' && username.trim() !== '' && password.trim() !== '') {
+    if (
+      typeof username === 'string' &&
+      typeof password === 'string' &&
+      username.trim() !== '' &&
+      password.trim() !== ''
+    ) {
       userUseCases.login(
           User.createInstance(username.trim(), password.trim()),
           onInvalidCredentials(res),

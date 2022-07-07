@@ -10,4 +10,8 @@ Dockerfile
 .dockerignore
 .eslint*
 .editorconfig
-.prettier*
+.prettierrc
+.prettierignore
+tsconfig.json
+package-lock.json
+package.json

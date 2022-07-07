@@ -1,8 +1,8 @@
 import {Schema, model} from 'mongoose';
 
 interface IUser {
-    username: string
-    password: string
+  username: string;
+  password: string;
 }
 
 const userSchema = new Schema<IUser>({

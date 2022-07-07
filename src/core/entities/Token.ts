@@ -3,7 +3,9 @@ import {isStringEmpty} from '../utils/checks/stringChecks';
 export class EncryptedToken {
   private constructor(private val: string) {
     if (isStringEmpty(val)) {
-      throw new Error('The value of the token has to be valid. Provided value: ' + val);
+      throw new Error(
+          'The value of the token has to be valid. Provided value: ' + val,
+      );
     }
   }
 
@@ -19,7 +21,9 @@ export class EncryptedToken {
 export class DecryptedToken {
   private constructor(private usr: string) {
     if (isStringEmpty(usr)) {
-      throw new Error('The value of the username has to be valid. Provided value: ' + usr);
+      throw new Error(
+          'The value of the username has to be valid. Provided value: ' + usr,
+      );
     }
   }
 
@@ -38,6 +42,6 @@ export class DecryptedToken {
   }
 }
 
-interface DecryptedTokenPayload{
-    username: string
+interface DecryptedTokenPayload {
+  username: string;
 }

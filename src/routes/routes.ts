@@ -11,7 +11,11 @@ import {EncryptedToken} from '../core/entities/Token';
 const tokenGenerator = JwtTokenGenerator.createInstance();
 const encryptionHandler = BcryptEncryptionHandler.createInstance();
 const userPersistence = MongooseUserPersistence.createInstance();
-const userUseCases = UserUseCases.createInstance(userPersistence, tokenGenerator, encryptionHandler);
+const userUseCases = UserUseCases.createInstance(
+    userPersistence,
+    tokenGenerator,
+    encryptionHandler,
+);
 
 export default function bindRoutes(server: Express): void {
   server.post('/user/register', userRegisterHandler(userUseCases));
@@ -24,7 +28,9 @@ export default function bindRoutes(server: Express): void {
 const verifyToken = (req: Request, res: Response, next: any) => {
   const token = req.headers.token;
   if (token !== undefined && typeof token === 'string') {
-    const decodedToken = tokenGenerator.decode(EncryptedToken.createInstance(token));
+    const decodedToken = tokenGenerator.decode(
+        EncryptedToken.createInstance(token),
+    );
     if (decodedToken !== undefined) {
       req.query.requestUsername = decodedToken.username.trim();
       next();

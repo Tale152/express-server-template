@@ -25,7 +25,11 @@ export default class JwtTokenGenerator implements TokenGenerator {
   decode(token: EncryptedToken): DecryptedToken | undefined {
     try {
       const decoded = jwt.verify(token.value, this.secret);
-      if (typeof decoded !== 'string' && decoded.exp !== undefined && (decoded.exp * 1000) > new Date().getTime()) {
+      if (
+        typeof decoded !== 'string' &&
+        decoded.exp !== undefined &&
+        decoded.exp * 1000 > new Date().getTime()
+      ) {
         const username = decoded.username;
         if (typeof username === 'string' && !isStringEmpty(username)) {
           return DecryptedToken.createInstance(username);
