@@ -30,9 +30,9 @@ export default class MongooseUserPersistence implements UserPersistence {
   getByUsername(username: string): Promise<User | undefined> {
     return new Promise((resolve) => {
       UserModel.findOne({username: username}).then(async (user) => {
-        user !== null
-          ? resolve(User.createInstance(user.username, user.password))
-          : resolve(undefined);
+        user !== null ?
+          resolve(User.createInstance(user.username, user.password)) :
+          resolve(undefined);
       });
     });
   }
@@ -40,9 +40,9 @@ export default class MongooseUserPersistence implements UserPersistence {
   getById(id: string): Promise<User | undefined> {
     return new Promise((resolve) => {
       UserModel.findById(id).then(async (user) => {
-        user !== null
-          ? resolve(User.createInstance(user.username, user.password))
-          : resolve(undefined);
+        user !== null ?
+          resolve(User.createInstance(user.username, user.password)) :
+          resolve(undefined);
       });
     });
   }
