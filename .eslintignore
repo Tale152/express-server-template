@@ -9,5 +9,5 @@ tsconfig.json
 .env
 dist/*
 node_modules/*
-.eslintrc.json
+.eslintrc.js
 .eslintignore
