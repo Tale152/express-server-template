@@ -19,6 +19,7 @@ module.exports = {
         "@typescript-eslint/semi": ["error"],
         "indent": "off",
         "@typescript-eslint/indent": ["error", 2],
-        'max-len': [2, { code: 80, ignorePattern: '^import .*' }]
+        "max-len": [2, { code: 80, ignorePattern: '^import .*' }],
+        "operator-linebreak": ["after", { "overrides": { "?": "before", ":": "before" } }]
     }
 }
