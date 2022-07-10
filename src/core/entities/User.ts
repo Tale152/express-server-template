@@ -10,8 +10,6 @@ export default class User {
           psw,
       );
     }
-    usr = usr.trim();
-    psw = psw.trim();
   }
 
   static createInstance(username: string, password: string) {
@@ -19,10 +17,10 @@ export default class User {
   }
 
   get username(): string {
-    return this.usr;
+    return this.usr.trim();
   }
 
   get password(): string {
-    return this.psw;
+    return this.psw.trim();
   }
 }
