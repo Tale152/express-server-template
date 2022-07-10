@@ -1,5 +1,4 @@
 .github/*
-.dockerignore
 Dockerfile
 LICENSE
 package-lock.json
