@@ -11,7 +11,7 @@ name: ESLint security report
 
 on:
   workflow_run:
-    workflows: ["Lint on commit"]
+    workflows: ["Continuous integration"]
     branches:
       - master
     types:
