@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "npm run lint && concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "lint": "npx prettier --write . && npx eslint ** --fix || exit 0",
+    "lint": "npx prettier --ignore-path ./.eslintignore --write . && npx eslint ** --fix || exit 0",
     "test": "jest --runInBand"
   },
   "repository": {
