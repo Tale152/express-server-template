@@ -6,7 +6,12 @@ on:
   pull_request:
     branches: [ '**' ]
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
+
   lint:
     name: Automatic linting
     runs-on: ubuntu-latest
@@ -28,6 +33,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Apply automatic lint changes
+
   test:
     name: Execute tests
     needs: lint
@@ -55,13 +61,27 @@ jobs:
       run: npm ci
     - name: Run tests
       run: npm test
+
   approve-dependabot-request:
     name: Approve a PR by dependabot
     needs: test
-    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - name: Auto approve
-        uses: cognitedata/auto-approve-dependabot-action@v3.0.1
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.1.1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
