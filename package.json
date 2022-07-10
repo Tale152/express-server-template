@@ -81,5 +81,10 @@
       "max-len": [2, { "code": 80, "ignorePattern": "^import .*" }],
       "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
     }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "verbose": true
   }
 }
