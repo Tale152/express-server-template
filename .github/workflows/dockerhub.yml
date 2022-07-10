@@ -2,7 +2,7 @@ name: Deploy Docker image on release
 
 on:
   release:
-    types: [published, edited]
+    types: [published]
 
 jobs:
   deploy-image:
