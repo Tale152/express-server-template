@@ -1,0 +1,21 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8000
+      - DB_ADDRESS=mongodb://database:27017/server_template
+      - ENCRYPTION_SALT=10
+      - TOKEN_SECRET=dev_secret
+      - TOKEN_VALIDITY=1d
+    ports:
+      - 8000:8000
+    image: server
+  database:
+    image: mongo
+    volumes:
+      - database_data:/data/db
+
+volumes:
+  database_data:

@@ -1,5 +1,6 @@
 .github/*
 Dockerfile
+docker-compose.yml
 LICENSE
 package-lock.json
 package.json
