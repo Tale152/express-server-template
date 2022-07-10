@@ -1,9 +1,10 @@
 FROM node:alpine
-WORKDIR /spark_server
+WORKDIR /server
 COPY package.json .
 COPY package-lock.json .
-RUN npm install --omit=dev
+RUN npm install
 COPY tsconfig.json .
 COPY src ./src
 RUN npm run build
+RUN rm -r src tsconfig.json
 CMD npm run start
