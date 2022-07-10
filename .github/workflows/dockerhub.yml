@@ -1,0 +1,17 @@
+name: Deploy Docker image on release
+
+on:
+  release:
+    types: [published, edited]
+
+jobs:
+  deploy-image:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v1
+        - name: Login to DockerHub Registry
+          run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        - name: Build the latest Docker image
+          run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{github.ref_name}}
+        - name: Push the latest Docker image
+          run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{github.ref_name}}
