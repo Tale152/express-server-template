@@ -10,6 +10,8 @@ export default class User {
           psw,
       );
     }
+    usr = usr.trim();
+    psw = psw.trim();
   }
 
   static createInstance(username: string, password: string) {
