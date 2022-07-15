@@ -46,6 +46,7 @@ test('A DecryptedToken should return the correct id, trimming it',
 
 test('A DecryptedToken should return the correct payload',
   async () => {
-    expect(validDecryptedToken.payload.id).toEqual(validDecryptedTokenId.trim());
+    expect(validDecryptedToken.payload.id)
+      .toEqual(validDecryptedTokenId.trim());
   },
 );

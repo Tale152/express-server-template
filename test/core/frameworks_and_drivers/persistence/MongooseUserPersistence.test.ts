@@ -38,10 +38,12 @@ test('Check that an User can be created', async () => {
   expect(await persistence.exists(josephJoestar.username)).toBeTruthy();
 });
 
-test('An User with the username of an existing User cannot be created', async () => {
-  expect(await persistence.exists(dioBrando.username)).toBeTruthy();
-  expect(await persistence.createNew(dioBrando)).toBeFalsy();
-});
+test('An User with the username of an existing User cannot be created',
+  async () => {
+    expect(await persistence.exists(dioBrando.username)).toBeTruthy();
+    expect(await persistence.createNew(dioBrando)).toBeFalsy();
+  },
+);
 
 test('Check retrieval of an User by username', async () => {
   expect(await persistence.getByUsername(jotaroKujo.username)).toBe(undefined);

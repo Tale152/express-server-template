@@ -22,7 +22,12 @@ beforeAll(async () => {
 });
 afterAll(dropConnectedTestDB);
 
-async function getBy(expect: number, query?: any, headers?: any, then?: (res: Response) => void) {
+async function getBy(
+  expect: number,
+  query?: any,
+  headers?: any,
+  then?: (res: Response) => void,
+) {
   await supertest(server)
     .get('/user/get-by')
     .query(query === undefined ? {} : query)
