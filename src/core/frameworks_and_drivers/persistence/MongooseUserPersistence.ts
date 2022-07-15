@@ -39,8 +39,8 @@ export default class MongooseUserPersistence implements UserPersistence {
         UserModel.findById(id).then(async (user) => {
           user !== null
             ? resolve(
-                new User(user._id.toString(), user.username, user.password),
-              )
+              new User(user._id.toString(), user.username, user.password),
+            )
             : resolve(undefined);
         });
       } else {

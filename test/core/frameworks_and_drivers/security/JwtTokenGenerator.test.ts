@@ -11,7 +11,7 @@ const originalDecryptedToken = new DecryptedToken('abc123');
 const tokenSecret = EnvVariablesSingleton.instance.tokenSecret;
 const tokenValidity = EnvVariablesSingleton.instance.tokenValidity;
 
-test("The JwtTokenGenerator encrypt and decode functions should behave like jwt' sign and verify functions", async () => {
+test('The JwtTokenGenerator encrypt and decode functions should behave like jwt\' sign and verify functions', async () => {
   const generatorEncryptedToken = generator.encrypt(originalDecryptedToken);
   const jwtVerifiedToken = jwt.verify(
     generatorEncryptedToken.value,

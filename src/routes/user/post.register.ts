@@ -4,7 +4,7 @@ import {EncryptedToken} from '../../core/entities/Token';
 import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 import {isStringEmpty} from '../../core/utils/checks/stringChecks';
-import { onError } from '../_common/onError';
+import {onError} from '../_common/onError';
 
 export default function userRegisterHandler(
   userUseCases: UserUseCases,

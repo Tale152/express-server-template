@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 
 import User from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
-import { onError } from '../_common/onError';
+import {onError} from '../_common/onError';
 
 export default function userGetByHandler(
   userUseCases: UserUseCases,
