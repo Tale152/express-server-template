@@ -35,10 +35,12 @@ export default class MongooseUserPersistence implements UserPersistence {
 
   getById(id: string): Promise<User | undefined> {
     return new Promise((resolve) => {
-      if(ObjectId.isValid(id)){
+      if (ObjectId.isValid(id)) {
         UserModel.findById(id).then(async (user) => {
           user !== null
-            ? resolve(new User(user._id.toString(), user.username, user.password))
+            ? resolve(
+                new User(user._id.toString(), user.username, user.password),
+              )
             : resolve(undefined);
         });
       } else {

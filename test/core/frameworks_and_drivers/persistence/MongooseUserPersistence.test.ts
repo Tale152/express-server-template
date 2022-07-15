@@ -26,7 +26,6 @@ afterAll(dropConnectedTestDB);
 
 const persistence = new MongooseUserPersistence();
 
-
 test('Check for the existence of an User', async () => {
   expect(await persistence.exists(dioBrando.username)).toBeTruthy();
   expect(await persistence.exists(jotaroKujo.username)).toBeFalsy();
@@ -52,12 +51,12 @@ test('Check retrieval of an User by username', async () => {
 
 test('Check retrieval of an User by id', async () => {
   const retreivedUser = await persistence.getByUsername(dioBrando.username);
-  if(retreivedUser !== undefined){
+  if (retreivedUser !== undefined) {
     const retreivedUserById = await persistence.getById(retreivedUser.id);
-    expect(retreivedUserById?.username).toBe(dioBrando.username)
+    expect(retreivedUserById?.username).toBe(dioBrando.username);
   } else {
     fail();
   }
-  expect(await persistence.getById("invalid id")).toBe(undefined);
-  expect(await persistence.getById("62d195716312dc5e105571a7")).toBe(undefined);
+  expect(await persistence.getById('invalid id')).toBe(undefined);
+  expect(await persistence.getById('62d195716312dc5e105571a7')).toBe(undefined);
 });

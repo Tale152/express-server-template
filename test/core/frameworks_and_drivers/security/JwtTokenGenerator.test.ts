@@ -24,9 +24,7 @@ test("The JwtTokenGenerator encrypt and decode functions should behave like jwt'
   } else {
     fail();
   }
-  expect(generator.decode(new EncryptedToken('asd'))).toBe(
-    undefined,
-  );
+  expect(generator.decode(new EncryptedToken('asd'))).toBe(undefined);
 });
 
 test('JwtTokenGenerator whould check for token validity while decoding', async () => {

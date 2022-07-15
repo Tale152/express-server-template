@@ -17,9 +17,7 @@ test('An EncryptedToken must be initialized with a valid token string', () => {
 });
 
 test('An EncryptedToken should return the correct value, without trimming it', () => {
-  const token: EncryptedToken = new EncryptedToken(
-    validEncryptedTokenVal,
-  );
+  const token: EncryptedToken = new EncryptedToken(validEncryptedTokenVal);
   expect(token.value).toEqual(validEncryptedTokenVal);
 });
 

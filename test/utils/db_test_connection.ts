@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import EnvVariablesSingleton from '../../src/setup/EnvVariablesSingleton';
 import mongoose from 'mongoose';
 
@@ -7,10 +7,10 @@ export async function createConnectionToTestDB() {
 }
 
 export async function resetDB() {
-  const collections = Object.keys(mongoose.connection.collections)
+  const collections = Object.keys(mongoose.connection.collections);
   for (const collectionName of collections) {
-    const collection = mongoose.connection.collections[collectionName]
-    await collection.deleteMany({})
+    const collection = mongoose.connection.collections[collectionName];
+    await collection.deleteMany({});
   }
 }
 
