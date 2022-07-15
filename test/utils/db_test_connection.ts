@@ -2,9 +2,8 @@ import EnvVariablesSingleton from '../../src/setup/EnvVariablesSingleton';
 import mongoose from 'mongoose';
 
 export function createConnectionToTestDB(completionCallback: () => void) {
-  mongoose.connect(
-    EnvVariablesSingleton.instance.dbAddress,
-    () => completionCallback()
+  mongoose.connect(EnvVariablesSingleton.instance.dbAddress, () =>
+    completionCallback(),
   );
 }
 
