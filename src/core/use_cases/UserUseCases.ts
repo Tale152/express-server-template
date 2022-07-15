@@ -3,7 +3,6 @@ import User, {UnpersistedUser} from '../entities/User';
 import EncryptionHandler from '../interface_adapters/security/EncryptionHandler';
 import UserPersistence from '../interface_adapters/persistence/UserPersistence';
 import TokenGenerator from '../interface_adapters/security/TokenGenerator';
-import {hasValue} from '../utils/checks/valueChecks';
 
 export default class UserUseCases {
   constructor(
@@ -11,15 +10,7 @@ export default class UserUseCases {
     private tokenGenerator: TokenGenerator,
     private encryptionHandler: EncryptionHandler,
   ) {
-    if (
-      !hasValue(persistence) ||
-      !hasValue(tokenGenerator) ||
-      !hasValue(encryptionHandler)
-    ) {
-      throw new Error(
-        'At least one of the provided arguments is undefined or null',
-      );
-    }
+    //does nothing
   }
 
   register(
@@ -84,6 +75,17 @@ export default class UserUseCases {
     onError: () => void,
   ): void {
     this.persistence.getById(id).then((retrievedUser) => {
+      retrievedUser === undefined ? onNotFound() : onFound(retrievedUser);
+    }, onError);
+  }
+
+  getByUsername(
+    username: string,
+    onFound: (user: User) => void,
+    onNotFound: () => void,
+    onError: () => void,
+  ): void {
+    this.persistence.getByUsername(username).then((retrievedUser) => {
       retrievedUser === undefined ? onNotFound() : onFound(retrievedUser);
     }, onError);
   }

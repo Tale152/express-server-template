@@ -8,9 +8,17 @@ export default function userGetByHandler(
 ): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
     const id = req.query.id;
+    const username = req.query.username;
     if (typeof id === 'string' && id.trim() !== '') {
       userUseCases.getById(
         id.trim(),
+        onFound(res),
+        onNotFound(res),
+        onError(res),
+      );
+    } else if(typeof username === 'string' && username.trim() !== ''){
+      userUseCases.getByUsername(
+        username.trim(),
         onFound(res),
         onNotFound(res),
         onError(res),
@@ -23,7 +31,10 @@ export default function userGetByHandler(
 
 function onFound(res: Response): (user: User) => Promise<void> {
   return async (user: User) => {
-    res.status(200).json({username: user.username}).send();
+    res.status(200).json({
+      id: user.id,
+      username: user.username
+    }).send();
   };
 }
 
