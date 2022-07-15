@@ -1,22 +1,21 @@
 import EnvVariablesSingleton from '../../src/setup/EnvVariablesSingleton';
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-export function createConnectionToTestDB(completionCallback) {
+export function createConnectionToTestDB(completionCallback: () => void) {
   mongoose.connect(
     EnvVariablesSingleton.instance.dbAddress,
-    {useNewUrlParser: true, useUnifiedTopology: true},
-    () => completionCallback(),
+    () => completionCallback()
   );
 }
 
 export async function resetTestDB() {
   const collections = await mongoose.connection.db.collections();
   for (const collection of collections) {
-    await collection.remove();
+    await collection.deleteMany({}, {}, () => {});
   }
 }
 
-export function dropConnectedTestDB(completionCallback) {
+export function dropConnectedTestDB(completionCallback: () => void) {
   mongoose.connection.db.dropDatabase(() => {
     mongoose.connection.close(() => completionCallback());
   });
