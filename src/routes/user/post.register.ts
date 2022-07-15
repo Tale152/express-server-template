@@ -4,6 +4,7 @@ import {EncryptedToken} from '../../core/entities/Token';
 import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 import {isStringEmpty} from '../../core/utils/checks/stringChecks';
+import { onError } from '../_common/onError';
 
 export default function userRegisterHandler(
   userUseCases: UserUseCases,
@@ -37,11 +38,5 @@ function onUserAlreadyExists(res: Response): () => Promise<void> {
 function onSuccess(res: Response): (token: EncryptedToken) => Promise<void> {
   return async (token: EncryptedToken) => {
     res.status(201).json({token: token.value}).send();
-  };
-}
-
-function onError(res: Response): () => Promise<void> {
-  return async () => {
-    res.status(500).send();
   };
 }

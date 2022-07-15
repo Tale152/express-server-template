@@ -2,6 +2,7 @@ import {Request, Response} from 'express';
 
 import User from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
+import { onError } from '../_common/onError';
 
 export default function userGetByHandler(
   userUseCases: UserUseCases,
@@ -44,11 +45,5 @@ function onFound(res: Response): (user: User) => Promise<void> {
 function onNotFound(res: Response): () => Promise<void> {
   return async () => {
     res.status(204).send();
-  };
-}
-
-function onError(res: Response): () => Promise<void> {
-  return async () => {
-    res.status(500).send();
   };
 }
