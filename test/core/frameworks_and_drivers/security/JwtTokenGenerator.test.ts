@@ -3,7 +3,8 @@ import {
   EncryptedToken,
   DecryptedToken,
 } from '../../../../src/core/entities/Token';
-import JwtTokenGenerator from '../../../../src/core/frameworks_and_drivers/security/JwtTokenGenerator';
+import JwtTokenGenerator
+  from '../../../../src/core/frameworks_and_drivers/security/JwtTokenGenerator';
 import EnvVariablesSingleton from '../../../../src/setup/EnvVariablesSingleton';
 
 const generator = new JwtTokenGenerator();
@@ -11,7 +12,7 @@ const originalDecryptedToken = new DecryptedToken('abc123');
 const tokenSecret = EnvVariablesSingleton.instance.tokenSecret;
 const tokenValidity = EnvVariablesSingleton.instance.tokenValidity;
 
-test("The JwtTokenGenerator encrypt and decode functions should behave like jwt' sign and verify functions", async () => {
+test('Encrypt and decode should behave like jwt sign and verify', async () => {
   const generatorEncryptedToken = generator.encrypt(originalDecryptedToken);
   const jwtVerifiedToken = jwt.verify(
     generatorEncryptedToken.value,
@@ -28,25 +29,25 @@ test("The JwtTokenGenerator encrypt and decode functions should behave like jwt'
   expect(generator.decode(new EncryptedToken('asd'))).toBe(undefined);
 });
 
-test('JwtTokenGenerator whould check for token validity while decoding', async () => {
-  const jwtSignedToken = jwt.sign(originalDecryptedToken.payload, tokenSecret, {
-    expiresIn: '1s',
-  });
+test('Token expiration is checked while decoding', async () => {
+  const jwtSignedToken = jwt.sign(
+    originalDecryptedToken.payload,
+    tokenSecret,
+    {expiresIn: '1s'},
+  );
   const encryptedToken = new EncryptedToken(jwtSignedToken);
   await new Promise((r) => setTimeout(r, 1100));
   expect(generator.decode(encryptedToken)).toBe(undefined);
 });
 
-test('If a decryptable token that is not decrypted to a string comes, it should be rejected', async () => {
+test('Reject non-string valid decrypted token', async () => {
   const jwtSignedToken = jwt.sign(
     {
       a: 'this is not',
       b: 'a string',
     },
     tokenSecret,
-    {
-      expiresIn: tokenValidity,
-    },
+    {expiresIn: tokenValidity},
   );
   expect(generator.decode(new EncryptedToken(jwtSignedToken))).toBe(undefined);
 });

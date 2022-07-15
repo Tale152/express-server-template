@@ -2,9 +2,11 @@ import {
   createConnectionToTestDB,
   dropConnectedTestDB,
 } from '../../../utils/db_test_connection';
-import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
+import MongooseUserPersistence
+  from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
 import {UnpersistedUser} from '../../../../src/core/entities/User';
-import UserModel from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
+import UserModel
+  from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
 
 const dioBrando = new UnpersistedUser('DioBrando', 'the world');
 const jotaroKujo = new UnpersistedUser('JotaroKujo', 'star platinum');

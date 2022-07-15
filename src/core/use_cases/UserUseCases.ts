@@ -1,4 +1,7 @@
-import {EncryptedToken, DecryptedToken} from '../entities/Token';
+import {
+  EncryptedToken,
+  DecryptedToken,
+} from '../entities/Token';
 import User, {UnpersistedUser} from '../entities/User';
 import EncryptionHandler from '../interface_adapters/security/EncryptionHandler';
 import UserPersistence from '../interface_adapters/persistence/UserPersistence';

@@ -7,7 +7,7 @@ import {
 } from '../utils/setEnvVariables';
 import EnvVariablesSingleton from '../../src/setup/EnvVariablesSingleton';
 
-test('The EnvVariablesSingleton should return the correct environment variables', () => {
+test('It should return the correct environment variables', () => {
   const singleton = EnvVariablesSingleton.instance;
   expect(singleton.port).toEqual(TEST_PORT_VARIABLE);
   expect(singleton.dbAddress).toEqual(TEST_DB_ADDRESS_VARIABLE);
