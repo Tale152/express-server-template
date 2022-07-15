@@ -37,6 +37,8 @@ export default class MongooseUserPersistence implements UserPersistence {
         user !== null
           ? resolve(new User(user._id.toString(), user.username, user.password))
           : resolve(undefined);
+      }, () => {
+        return undefined;
       });
     });
   }

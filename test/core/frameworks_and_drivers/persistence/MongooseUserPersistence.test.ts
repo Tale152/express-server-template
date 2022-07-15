@@ -49,3 +49,12 @@ test('Check retrieval of an User by username', async () => {
   expect(retreivedUser?.username).toBe(user.username);
   expect(retreivedUser?.password).toBe(user.password);
 });
+
+test('Check retrieval of an User by id', async () => {
+  await persistence.createNew(user);
+  const retreivedUser = await persistence.getByUsername(user.username);
+  if(retreivedUser !== undefined){
+    const retreivedUserById = await persistence.getById(retreivedUser.id);
+    expect(retreivedUserById?.username).toBe(user.username)
+  }
+});
