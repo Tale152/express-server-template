@@ -124,6 +124,6 @@
         "statements": 80
       }
     },
-    "setupFiles": ["<rootDir>/test/setEnvVariables.ts"]
+    "setupFiles": ["<rootDir>/test/utils/setEnvVariables.ts"]
   }
 }

@@ -4,7 +4,7 @@ import {
   TEST_ENCRYPTION_SALT_VARIABLE,
   TEST_TOKEN_SECRET_VARIABLE,
   TEST_TOKEN_VALIDITY_VARIABLE,
-} from '../setEnvVariables';
+} from '../utils/setEnvVariables';
 import EnvVariablesSingleton from '../../src/setup/EnvVariablesSingleton';
 
 test('The EnvVariablesSingleton should return the correct environment variables', () => {
