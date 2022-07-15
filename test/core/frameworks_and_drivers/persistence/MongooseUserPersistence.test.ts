@@ -6,8 +6,8 @@ import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers
 import {UnpersistedUser} from '../../../../src/core/entities/User';
 import UserModel from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
 
-beforeAll((done) => createConnectionToTestDB(done));
-afterAll((done) => dropConnectedTestDB(done));
+beforeAll(createConnectionToTestDB);
+afterAll(dropConnectedTestDB);
 
 const persistence = new MongooseUserPersistence();
 

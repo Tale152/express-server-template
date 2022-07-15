@@ -2,14 +2,11 @@ import { v4 as uuidv4 } from 'uuid';
 import EnvVariablesSingleton from '../../src/setup/EnvVariablesSingleton';
 import mongoose from 'mongoose';
 
-export function createConnectionToTestDB(completionCallback: () => void) {
-  mongoose.connect(EnvVariablesSingleton.instance.dbAddress + uuidv4(), () =>
-    completionCallback(),
-  );
+export async function createConnectionToTestDB() {
+  await mongoose.connect(EnvVariablesSingleton.instance.dbAddress + uuidv4());
 }
 
-export function dropConnectedTestDB(completionCallback: () => void) {
-  mongoose.connection.db.dropDatabase(() => {
-    mongoose.connection.close(() => completionCallback());
-  });
+export async function dropConnectedTestDB() {
+  await mongoose.connection.db.dropDatabase();
+  await mongoose.connection.close();
 }

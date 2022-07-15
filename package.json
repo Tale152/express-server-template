@@ -112,7 +112,6 @@
     "coverageReporters": [
       "json",
       "html",
-      "text",
       "text-summary"
     ],
     "collectCoverageFrom": [
