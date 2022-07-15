@@ -1,6 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import BcryptEncryptionHandler
-  from '../../../../src/core/frameworks_and_drivers/security/BcryptEncryptionHandler';
+import BcryptEncryptionHandler from '../../../../src/core/frameworks_and_drivers/security/BcryptEncryptionHandler';
 
 test('Encrypt and compare functions should behave like the bcrypt ones',
   async () => {

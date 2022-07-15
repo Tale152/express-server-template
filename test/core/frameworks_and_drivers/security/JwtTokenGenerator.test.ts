@@ -3,8 +3,7 @@ import {
   EncryptedToken,
   DecryptedToken,
 } from '../../../../src/core/entities/Token';
-import JwtTokenGenerator
-  from '../../../../src/core/frameworks_and_drivers/security/JwtTokenGenerator';
+import JwtTokenGenerator from '../../../../src/core/frameworks_and_drivers/security/JwtTokenGenerator';
 import EnvVariablesSingleton from '../../../../src/setup/EnvVariablesSingleton';
 
 const generator = new JwtTokenGenerator();

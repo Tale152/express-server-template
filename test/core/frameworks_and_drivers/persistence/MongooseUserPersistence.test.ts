@@ -2,11 +2,9 @@ import {
   createConnectionToTestDB,
   dropConnectedTestDB,
 } from '../../../utils/db_test_connection';
-import MongooseUserPersistence
-  from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
+import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
 import {UnpersistedUser} from '../../../../src/core/entities/User';
-import UserModel
-  from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
+import UserModel from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
 
 const dioBrando = new UnpersistedUser('DioBrando', 'the world');
 const jotaroKujo = new UnpersistedUser('JotaroKujo', 'star platinum');
@@ -40,7 +38,7 @@ test('Check that an User can be created', async () => {
   expect(await persistence.exists(josephJoestar.username)).toBeTruthy();
 });
 
-test('Check that an User with the username of an existing User cannot be created', async () => {
+test('An User with the username of an existing User cannot be created', async () => {
   expect(await persistence.exists(dioBrando.username)).toBeTruthy();
   expect(await persistence.createNew(dioBrando)).toBeFalsy();
 });

@@ -1,10 +1,7 @@
 import {Express, Request, Response} from 'express';
-import MongooseUserPersistence
-  from '../core/frameworks_and_drivers/persistence/MongooseUserPersistence';
-import BcryptEncryptionHandler
-  from '../core/frameworks_and_drivers/security/BcryptEncryptionHandler';
-import JwtTokenGenerator
-  from '../core/frameworks_and_drivers/security/JwtTokenGenerator';
+import MongooseUserPersistence from '../core/frameworks_and_drivers/persistence/MongooseUserPersistence';
+import BcryptEncryptionHandler from '../core/frameworks_and_drivers/security/BcryptEncryptionHandler';
+import JwtTokenGenerator from '../core/frameworks_and_drivers/security/JwtTokenGenerator';
 import UserUseCases from '../core/use_cases/UserUseCases';
 import userRegisterHandler from './user/post.register';
 import userLoginHandler from './user/get.login';
