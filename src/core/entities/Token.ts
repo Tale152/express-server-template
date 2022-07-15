@@ -28,7 +28,7 @@ export class DecryptedToken {
   }
 
   static createInstance(usr: string) {
-    return new DecryptedToken(usr);
+    return new DecryptedToken(usr.trim());
   }
 
   get username(): string {
