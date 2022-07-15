@@ -1,5 +1,11 @@
-process.env.PORT = "3000";
-process.env.DB_ADDRESS = "TODO";
-process.env.ENCRYPTION_SALT = "10";
-process.env.TOKEN_SECRET = "test_secret";
-process.env.TOKEN_VALIDITY = "1d";
+export const TEST_PORT_VARIABLE = 3000;
+export const TEST_DB_ADDRESS_VARIABLE = 'TODO';
+export const TEST_ENCRYPTION_SALT_VARIABLE = 10;
+export const TEST_TOKEN_SECRET_VARIABLE = 'test_secret';
+export const TEST_TOKEN_VALIDITY_VARIABLE = '1d';
+
+process.env.PORT = TEST_PORT_VARIABLE.toString();
+process.env.DB_ADDRESS = TEST_DB_ADDRESS_VARIABLE;
+process.env.ENCRYPTION_SALT = TEST_ENCRYPTION_SALT_VARIABLE.toString();
+process.env.TOKEN_SECRET = TEST_TOKEN_SECRET_VARIABLE;
+process.env.TOKEN_VALIDITY = TEST_TOKEN_VALIDITY_VARIABLE;
