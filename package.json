@@ -119,7 +119,6 @@
       "html",
       "console"
     ],
-    "mode": "strict",
-    "minTokens": 20
+    "mode": "strict"
   }
 }
