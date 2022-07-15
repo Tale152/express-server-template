@@ -117,6 +117,9 @@
     "collectCoverageFrom": [
       "src/**/*.{js,ts,jsx,tsx}"
     ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/index.ts"
+  ],
     "coverageThreshold": {
       "global": {
         "branches": 80,
