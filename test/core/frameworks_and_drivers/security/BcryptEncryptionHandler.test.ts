@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import BcryptEncryptionHandler from '../../../src/core/frameworks_and_drivers/security/BcryptEncryptionHandler';
+import BcryptEncryptionHandler from '../../../../src/core/frameworks_and_drivers/security/BcryptEncryptionHandler';
 
 test('The BcryptEncryptionHandler encrypt and compare functions should behave like the bcrypt ones', async () => {
   const encryptionHandler = BcryptEncryptionHandler.createInstance();
