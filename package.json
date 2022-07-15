@@ -52,11 +52,11 @@
     "typescript": "^4.7.3"
   },
   "prettier": {
-		"printWidth": 80,
+    "printWidth": 80,
     "singleQuote": true,
     "bracketSpacing": false,
     "trailingComma": "all"
-	},
+  },
   "eslintConfig": {
     "env": {
       "browser": true,
@@ -75,11 +75,31 @@
     ],
     "rules": {
       "semi": "off",
-      "@typescript-eslint/semi": ["error"],
+      "@typescript-eslint/semi": [
+        "error"
+      ],
       "indent": "off",
-      "@typescript-eslint/indent": ["error", 2],
-      "max-len": [2, { "code": 80, "ignorePattern": "^import .*" }],
-      "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
+      "@typescript-eslint/indent": [
+        "error",
+        2
+      ],
+      "max-len": [
+        2,
+        {
+          "code": 80,
+          "ignorePattern": "^import .*"
+        }
+      ],
+      "operator-linebreak": [
+        "error",
+        "after",
+        {
+          "overrides": {
+            "?": "before",
+            ":": "before"
+          }
+        }
+      ]
     }
   },
   "jest": {
@@ -87,7 +107,12 @@
     "testEnvironment": "node",
     "verbose": true,
     "collectCoverage": true,
-    "coverageReporters": ["json", "html", "text", "text-summary"],
+    "coverageReporters": [
+      "json",
+      "html",
+      "text",
+      "text-summary"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,ts,jsx,tsx}"
     ],
