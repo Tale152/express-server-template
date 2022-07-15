@@ -14,10 +14,10 @@ export default function userLoginHandler(
       typeof username === 'string' &&
       typeof password === 'string' &&
       username.trim() !== '' &&
-      password.trim() !== ''
+      password !== ''
     ) {
       userUseCases.login(
-        new UnpersistedUser(username.trim(), password.trim()),
+        new UnpersistedUser(username.trim(), password),
         onInvalidCredentials(res),
         onSuccess(res),
         onError(res),

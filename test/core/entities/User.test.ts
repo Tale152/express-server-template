@@ -37,15 +37,13 @@ test('An User should return the correct id, username and password', () => {
   expect(user.password).toEqual(validPassword);
 });
 
-test('Id, username, password should not contain extra spaces', () => {
+test('The username should not contain extra spaces', () => {
   const user: User = new User(
-    addExtraSpaces(validId),
+    validId,
     addExtraSpaces(validUsername),
-    addExtraSpaces(validPassword),
+    validPassword,
   );
-  expect(user.id).toEqual(validId);
   expect(user.username).toEqual(validUsername);
-  expect(user.password).toEqual(validPassword);
 });
 
 function assertUserThrowsOnNewInstance(

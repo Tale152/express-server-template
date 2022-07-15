@@ -17,7 +17,7 @@ export class UnpersistedUser {
   }
 
   get password(): string {
-    return this.psw.trim();
+    return this.psw;
   }
 }
 
@@ -30,6 +30,6 @@ export default class User extends UnpersistedUser {
   }
 
   get id(): string {
-    return this.usrId.trim();
+    return this.usrId;
   }
 }
