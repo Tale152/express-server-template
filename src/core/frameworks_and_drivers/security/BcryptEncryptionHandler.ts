@@ -5,12 +5,8 @@ import EncryptionHandler from '../../interface_adapters/security/EncryptionHandl
 export default class BcryptEncryptionHandler implements EncryptionHandler {
   private salt: number;
 
-  private constructor() {
+  constructor() {
     this.salt = EnvVariablesSingleton.instance.encryptionSalt;
-  }
-
-  static createInstance(): BcryptEncryptionHandler {
-    return new BcryptEncryptionHandler();
   }
 
   encrypt(str: string): Promise<string> {

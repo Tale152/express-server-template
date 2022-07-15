@@ -1,16 +1,12 @@
 import {isStringEmpty} from '../utils/checks/stringChecks';
 
 export class EncryptedToken {
-  private constructor(private val: string) {
+  constructor(private val: string) {
     if (isStringEmpty(val)) {
       throw new Error(
         'The value of the token has to be valid. Provided value: ' + val,
       );
     }
-  }
-
-  static createInstance(value: string) {
-    return new EncryptedToken(value);
   }
 
   get value(): string {
@@ -19,7 +15,7 @@ export class EncryptedToken {
 }
 
 export class DecryptedToken {
-  private constructor(private usrId: string) {
+  constructor(private usrId: string) {
     if (isStringEmpty(usrId)) {
       throw new Error(
         'The value of the id has to be valid. Provided id: ' + usrId,
@@ -27,17 +23,13 @@ export class DecryptedToken {
     }
   }
 
-  static createInstance(usrId: string) {
-    return new DecryptedToken(usrId.trim());
-  }
-
   get id(): string {
-    return this.usrId;
+    return this.usrId.trim();
   }
 
   get payload(): DecryptedTokenPayload {
     return {
-      id: this.usrId,
+      id: this.id,
     };
   }
 }

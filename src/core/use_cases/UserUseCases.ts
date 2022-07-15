@@ -6,7 +6,7 @@ import TokenGenerator from '../interface_adapters/security/TokenGenerator';
 import {hasValue} from '../utils/checks/valueChecks';
 
 export default class UserUseCases {
-  private constructor(
+  constructor(
     private persistence: UserPersistence,
     private tokenGenerator: TokenGenerator,
     private encryptionHandler: EncryptionHandler,
@@ -20,14 +20,6 @@ export default class UserUseCases {
         'At least one of the provided arguments is undefined or null',
       );
     }
-  }
-
-  static createInstance(
-    persistence: UserPersistence,
-    tokenGenerator: TokenGenerator,
-    encryptionHandler: EncryptionHandler,
-  ) {
-    return new UserUseCases(persistence, tokenGenerator, encryptionHandler);
   }
 
   register(
@@ -44,7 +36,7 @@ export default class UserUseCases {
           (encryptedUser) => {
             this.persistence.createNew(encryptedUser).then(
               () => {
-                const decryptedToken = DecryptedToken.createInstance(
+                const decryptedToken = new DecryptedToken(
                   encryptedUser.username,
                 );
                 onSuccess(this.tokenGenerator.encrypt(decryptedToken));
@@ -73,9 +65,7 @@ export default class UserUseCases {
           .then(
             (comparationResult) => {
               if (comparationResult) {
-                const decryptedToken = DecryptedToken.createInstance(
-                  retreivedUser.id,
-                );
+                const decryptedToken = new DecryptedToken(retreivedUser.id);
                 onSuccess(this.tokenGenerator.encrypt(decryptedToken));
               } else {
                 onInvalidCredentials();

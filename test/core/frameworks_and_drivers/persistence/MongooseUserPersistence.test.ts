@@ -11,7 +11,7 @@ beforeAll((done) => createConnectionToTestDB(done));
 beforeEach(() => resetTestDB());
 afterAll((done) => dropConnectedTestDB(done));
 
-const persistence = MongooseUserPersistence.createInstance();
+const persistence = new MongooseUserPersistence();
 const user = new UnpersistedUser('Username', 'password');
 
 test('Check for the existence of an User', async () => {

@@ -6,8 +6,8 @@ import {
 import JwtTokenGenerator from '../../../../src/core/frameworks_and_drivers/security/JwtTokenGenerator';
 import EnvVariablesSingleton from '../../../../src/setup/EnvVariablesSingleton';
 
-const generator = JwtTokenGenerator.createInstance();
-const originalDecryptedToken = DecryptedToken.createInstance('abc123');
+const generator = new JwtTokenGenerator();
+const originalDecryptedToken = new DecryptedToken('abc123');
 const tokenSecret = EnvVariablesSingleton.instance.tokenSecret;
 
 test('The JwtTokenGenerator encrypt and decode functions should behave like jwt\' sign and verify functions', async () => {
@@ -24,7 +24,7 @@ test('The JwtTokenGenerator encrypt and decode functions should behave like jwt\
   } else {
     fail();
   }
-  expect(generator.decode(EncryptedToken.createInstance('asd'))).toBe(
+  expect(generator.decode(new EncryptedToken('asd'))).toBe(
     undefined,
   );
 });
@@ -33,7 +33,7 @@ test('JwtTokenGenerator whould check for token validity while decoding', async (
   const jwtSignedToken = jwt.sign(originalDecryptedToken.payload, tokenSecret, {
     expiresIn: '1s',
   });
-  const encryptedToken = EncryptedToken.createInstance(jwtSignedToken);
+  const encryptedToken = new EncryptedToken(jwtSignedToken);
   await new Promise((r) => setTimeout(r, 1100));
   expect(generator.decode(encryptedToken)).toBe(undefined);
 });

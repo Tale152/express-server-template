@@ -1,7 +1,7 @@
 import User from '../../../src/core/entities/User';
 
 const emptyString: string = '';
-const validId: string = "abc123"
+const validId: string = 'abc123';
 const validUsername: string = 'user';
 const validPassword: string = 'password';
 const extraSpaces: string = '\t  \t';

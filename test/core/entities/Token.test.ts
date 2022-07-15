@@ -4,20 +4,20 @@ const emptyString: string = '';
 
 const validEncryptedTokenVal: string = 'something to encrypt ';
 const validDecryptedTokenId: string = 'abc123 ';
-const validDecryptedToken: DecryptedToken = DecryptedToken.createInstance(
+const validDecryptedToken: DecryptedToken = new DecryptedToken(
   validDecryptedTokenId,
 );
 
 test('An EncryptedToken must be initialized with a valid token string', () => {
   // @ts-ignore
-  expect(() => EncryptedToken.createInstance(undefined)).toThrow();
+  expect(() => new EncryptedToken(undefined)).toThrow();
   // @ts-ignore
-  expect(() => EncryptedToken.createInstance(null)).toThrow();
-  expect(() => EncryptedToken.createInstance(emptyString)).toThrow();
+  expect(() => new EncryptedToken(null)).toThrow();
+  expect(() => new EncryptedToken(emptyString)).toThrow();
 });
 
 test('An EncryptedToken should return the correct value, without trimming it', () => {
-  const token: EncryptedToken = EncryptedToken.createInstance(
+  const token: EncryptedToken = new EncryptedToken(
     validEncryptedTokenVal,
   );
   expect(token.value).toEqual(validEncryptedTokenVal);
@@ -25,20 +25,16 @@ test('An EncryptedToken should return the correct value, without trimming it', (
 
 test('A DecryptedToken must be initialized with a valid username', () => {
   // @ts-ignore
-  expect(() => DecryptedToken.createInstance(undefined)).toThrow();
+  expect(() => new DecryptedToken(undefined)).toThrow();
   // @ts-ignore
-  expect(() => DecryptedToken.createInstance(null)).toThrow();
-  expect(() => DecryptedToken.createInstance(emptyString)).toThrow();
+  expect(() => new DecryptedToken(null)).toThrow();
+  expect(() => new DecryptedToken(emptyString)).toThrow();
 });
 
 test('A DecryptedToken should return the correct id, trimming it', () => {
-  expect(validDecryptedToken.id).toEqual(
-    validDecryptedTokenId.trim(),
-  );
+  expect(validDecryptedToken.id).toEqual(validDecryptedTokenId.trim());
 });
 
 test('A DecryptedToken should return the correct payload', () => {
-  expect(validDecryptedToken.payload.id).toEqual(
-    validDecryptedTokenId.trim(),
-  );
+  expect(validDecryptedToken.payload.id).toEqual(validDecryptedTokenId.trim());
 });

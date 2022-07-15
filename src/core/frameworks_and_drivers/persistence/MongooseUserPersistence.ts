@@ -3,12 +3,6 @@ import UserPersistence from '../../interface_adapters/persistence/UserPersistenc
 import UserModel from './mongoose/UserModel';
 
 export default class MongooseUserPersistence implements UserPersistence {
-  private constructor() {}
-
-  static createInstance(): MongooseUserPersistence {
-    return new MongooseUserPersistence();
-  }
-
   exists(username: string): Promise<boolean> {
     return new Promise((resolve) => {
       this.getByUsername(username).then((user) => resolve(user !== undefined));
