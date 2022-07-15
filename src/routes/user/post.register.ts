@@ -9,11 +9,11 @@ export default function userRegisterHandler(
   userUseCases: UserUseCases,
 ): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
-    const username = req.body.username.trim();
-    const password = req.body.password.trim();
+    const username = req.body.username;
+    const password = req.body.password;
     if (areParametersValid(username, password)) {
       userUseCases.register(
-        new UnpersistedUser(username, password),
+        new UnpersistedUser(username.trim(), password.trim()),
         onUserAlreadyExists(res),
         onSuccess(res),
         onError(res),
