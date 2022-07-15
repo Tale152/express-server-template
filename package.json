@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "npm run lint && concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "lint": "npx prettier --ignore-path ./.eslintignore --write . && npx eslint ** --fix || exit 0",
+    "lint": "npx eslint **",
     "test": "jest",
     "cpd": "npx jscpd ./src ./test"
   },
@@ -51,16 +51,9 @@
     "eslint-config-google": "^0.14.0",
     "jest": "^28.1.2",
     "nodemon": "^2.0.16",
-    "prettier": "2.7.1",
     "supertest": "^6.2.4",
     "ts-jest": "^28.0.5",
     "typescript": "^4.7.3"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "trailingComma": "all"
   },
   "eslintConfig": {
     "env": {
@@ -87,23 +80,6 @@
       "@typescript-eslint/indent": [
         "error",
         2
-      ],
-      "max-len": [
-        2,
-        {
-          "code": 80,
-          "ignorePattern": "^import .*"
-        }
-      ],
-      "operator-linebreak": [
-        "error",
-        "after",
-        {
-          "overrides": {
-            "?": "before",
-            ":": "before"
-          }
-        }
       ]
     }
   },
@@ -137,7 +113,10 @@
   },
   "jscpd": {
     "threshold": 5,
-    "reporters": ["html", "console"],
+    "reporters": [
+      "html",
+      "console"
+    ],
     "mode": "strict",
     "minTokens": 20
   }
