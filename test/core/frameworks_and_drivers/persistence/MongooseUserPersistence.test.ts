@@ -4,7 +4,7 @@ import {
   dropConnectedTestDB,
 } from '../../../utils/db_test_connection';
 import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
-import User from '../../../../src/core/entities/User';
+import {UnpersistedUser} from '../../../../src/core/entities/User';
 import UserModel from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
 
 beforeAll((done) => createConnectionToTestDB(done));
@@ -12,7 +12,7 @@ beforeEach(() => resetTestDB());
 afterAll((done) => dropConnectedTestDB(done));
 
 const persistence = MongooseUserPersistence.createInstance();
-const user = User.createInstance('Username', 'password');
+const user = new UnpersistedUser('Username', 'password');
 
 test('Check for the existence of an User', async () => {
   expect(await persistence.exists(user.username)).toBeFalsy();

@@ -7,7 +7,7 @@ import JwtTokenGenerator from '../../../../src/core/frameworks_and_drivers/secur
 import EnvVariablesSingleton from '../../../../src/setup/EnvVariablesSingleton';
 
 const generator = JwtTokenGenerator.createInstance();
-const originalDecryptedToken = DecryptedToken.createInstance('user');
+const originalDecryptedToken = DecryptedToken.createInstance('abc123');
 const tokenSecret = EnvVariablesSingleton.instance.tokenSecret;
 
 test('The JwtTokenGenerator encrypt and decode functions should behave like jwt\' sign and verify functions', async () => {
@@ -17,9 +17,9 @@ test('The JwtTokenGenerator encrypt and decode functions should behave like jwt\
     tokenSecret,
   );
   if (typeof jwtVerifiedToken !== 'string') {
-    expect(jwtVerifiedToken.username).toEqual(originalDecryptedToken.username);
-    expect(jwtVerifiedToken.username).toEqual(
-      generator.decode(generatorEncryptedToken)?.username,
+    expect(jwtVerifiedToken.id).toEqual(originalDecryptedToken.id);
+    expect(jwtVerifiedToken.id).toEqual(
+      generator.decode(generatorEncryptedToken)?.id,
     );
   } else {
     fail();

@@ -2,10 +2,10 @@ import {EncryptedToken, DecryptedToken} from '../../../src/core/entities/Token';
 
 const emptyString: string = '';
 
-const validEncryptedTokenVal: string = 'abc123 ';
-const validDecryptedTokenUsername: string = 'user ';
+const validEncryptedTokenVal: string = 'something to encrypt ';
+const validDecryptedTokenId: string = 'abc123 ';
 const validDecryptedToken: DecryptedToken = DecryptedToken.createInstance(
-  validDecryptedTokenUsername,
+  validDecryptedTokenId,
 );
 
 test('An EncryptedToken must be initialized with a valid token string', () => {
@@ -31,14 +31,14 @@ test('A DecryptedToken must be initialized with a valid username', () => {
   expect(() => DecryptedToken.createInstance(emptyString)).toThrow();
 });
 
-test('A DecryptedToken should return the correct username, trimming it', () => {
-  expect(validDecryptedToken.username).toEqual(
-    validDecryptedTokenUsername.trim(),
+test('A DecryptedToken should return the correct id, trimming it', () => {
+  expect(validDecryptedToken.id).toEqual(
+    validDecryptedTokenId.trim(),
   );
 });
 
 test('A DecryptedToken should return the correct payload', () => {
-  expect(validDecryptedToken.payload.username).toEqual(
-    validDecryptedTokenUsername.trim(),
+  expect(validDecryptedToken.payload.id).toEqual(
+    validDecryptedTokenId.trim(),
   );
 });
