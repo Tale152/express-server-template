@@ -1,6 +1,5 @@
 import {
   createConnectionToTestDB,
-  resetTestDB,
   dropConnectedTestDB,
 } from '../../../utils/db_test_connection';
 import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
@@ -8,13 +7,13 @@ import {UnpersistedUser} from '../../../../src/core/entities/User';
 import UserModel from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
 
 beforeAll((done) => createConnectionToTestDB(done));
-beforeEach(() => resetTestDB());
 afterAll((done) => dropConnectedTestDB(done));
 
 const persistence = new MongooseUserPersistence();
-const user = new UnpersistedUser('Username', 'password');
+
 
 test('Check for the existence of an User', async () => {
+  const user = new UnpersistedUser('existence', 'password');
   expect(await persistence.exists(user.username)).toBeFalsy();
   const userToPersist = new UserModel({
     username: user.username,
@@ -30,12 +29,14 @@ test('Check for the existence of an User', async () => {
 });
 
 test('Check that an User can be created', async () => {
+  const user = new UnpersistedUser('creation', 'password');
   expect(await persistence.exists(user.username)).toBeFalsy();
   expect(await persistence.createNew(user)).toBeTruthy();
   expect(await persistence.exists(user.username)).toBeTruthy();
 });
 
 test('Check that an User with the username of an existing User cannot be created', async () => {
+  const user = new UnpersistedUser('duplicate', 'password');
   expect(await persistence.exists(user.username)).toBeFalsy();
   expect(await persistence.createNew(user)).toBeTruthy();
   expect(await persistence.exists(user.username)).toBeTruthy();
@@ -43,6 +44,7 @@ test('Check that an User with the username of an existing User cannot be created
 });
 
 test('Check retrieval of an User by username', async () => {
+  const user = new UnpersistedUser('ByUsername', 'password');
   expect(await persistence.getByUsername(user.username)).toBe(undefined);
   await persistence.createNew(user);
   const retreivedUser = await persistence.getByUsername(user.username);
@@ -51,6 +53,7 @@ test('Check retrieval of an User by username', async () => {
 });
 
 test('Check retrieval of an User by id', async () => {
+  const user = new UnpersistedUser('ById', 'password');
   await persistence.createNew(user);
   const retreivedUser = await persistence.getByUsername(user.username);
   if(retreivedUser !== undefined){
