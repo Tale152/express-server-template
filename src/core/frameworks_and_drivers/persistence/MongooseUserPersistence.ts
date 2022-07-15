@@ -2,6 +2,8 @@ import User, {UnpersistedUser} from '../../entities/User';
 import UserPersistence from '../../interface_adapters/persistence/UserPersistence';
 import UserModel from './mongoose/UserModel';
 
+const ObjectId = require('mongoose').Types.ObjectId;
+
 export default class MongooseUserPersistence implements UserPersistence {
   exists(username: string): Promise<boolean> {
     return new Promise((resolve) => {
@@ -33,13 +35,15 @@ export default class MongooseUserPersistence implements UserPersistence {
 
   getById(id: string): Promise<User | undefined> {
     return new Promise((resolve) => {
-      UserModel.findById(id).then(async (user) => {
-        user !== null
-          ? resolve(new User(user._id.toString(), user.username, user.password))
-          : resolve(undefined);
-      }, () => {
-        return undefined;
-      });
+      if(ObjectId.isValid(id)){
+        UserModel.findById(id).then(async (user) => {
+          user !== null
+            ? resolve(new User(user._id.toString(), user.username, user.password))
+            : resolve(undefined);
+        });
+      } else {
+        resolve(undefined);
+      }
     });
   }
 }

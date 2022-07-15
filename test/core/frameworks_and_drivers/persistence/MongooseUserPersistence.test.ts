@@ -6,18 +6,14 @@ import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers
 import {UnpersistedUser} from '../../../../src/core/entities/User';
 import UserModel from '../../../../src/core/frameworks_and_drivers/persistence/mongoose/UserModel';
 
-beforeAll(createConnectionToTestDB);
-afterAll(dropConnectedTestDB);
+const dioBrando = new UnpersistedUser('DioBrando', 'the world');
+const jotaroKujo = new UnpersistedUser('JotaroKujo', 'star platinum');
 
-const persistence = new MongooseUserPersistence();
-
-
-test('Check for the existence of an User', async () => {
-  const user = new UnpersistedUser('existence', 'password');
-  expect(await persistence.exists(user.username)).toBeFalsy();
+beforeAll(async () => {
+  createConnectionToTestDB();
   const userToPersist = new UserModel({
-    username: user.username,
-    password: user.password,
+    username: dioBrando.username,
+    password: dioBrando.password,
   });
   const res = await new Promise((resolve) => {
     userToPersist.save((err) => {
@@ -25,39 +21,43 @@ test('Check for the existence of an User', async () => {
     });
   });
   expect(res).toBeTruthy();
-  expect(await persistence.exists(user.username)).toBeTruthy();
+});
+afterAll(dropConnectedTestDB);
+
+const persistence = new MongooseUserPersistence();
+
+
+test('Check for the existence of an User', async () => {
+  expect(await persistence.exists(dioBrando.username)).toBeTruthy();
+  expect(await persistence.exists(jotaroKujo.username)).toBeFalsy();
 });
 
 test('Check that an User can be created', async () => {
-  const user = new UnpersistedUser('creation', 'password');
-  expect(await persistence.exists(user.username)).toBeFalsy();
-  expect(await persistence.createNew(user)).toBeTruthy();
-  expect(await persistence.exists(user.username)).toBeTruthy();
+  const josephJoestar = new UnpersistedUser('JosephJoestar', 'hamon_sounds');
+  expect(await persistence.exists(josephJoestar.username)).toBeFalsy();
+  expect(await persistence.createNew(josephJoestar)).toBeTruthy();
+  expect(await persistence.exists(josephJoestar.username)).toBeTruthy();
 });
 
 test('Check that an User with the username of an existing User cannot be created', async () => {
-  const user = new UnpersistedUser('duplicate', 'password');
-  expect(await persistence.exists(user.username)).toBeFalsy();
-  expect(await persistence.createNew(user)).toBeTruthy();
-  expect(await persistence.exists(user.username)).toBeTruthy();
-  expect(await persistence.createNew(user)).toBeFalsy();
+  expect(await persistence.exists(dioBrando.username)).toBeTruthy();
+  expect(await persistence.createNew(dioBrando)).toBeFalsy();
 });
 
 test('Check retrieval of an User by username', async () => {
-  const user = new UnpersistedUser('ByUsername', 'password');
-  expect(await persistence.getByUsername(user.username)).toBe(undefined);
-  await persistence.createNew(user);
-  const retreivedUser = await persistence.getByUsername(user.username);
-  expect(retreivedUser?.username).toBe(user.username);
-  expect(retreivedUser?.password).toBe(user.password);
+  expect(await persistence.getByUsername(jotaroKujo.username)).toBe(undefined);
+  const retreivedUser = await persistence.getByUsername(dioBrando.username);
+  expect(retreivedUser?.username).toBe(dioBrando.username);
 });
 
 test('Check retrieval of an User by id', async () => {
-  const user = new UnpersistedUser('ById', 'password');
-  await persistence.createNew(user);
-  const retreivedUser = await persistence.getByUsername(user.username);
+  const retreivedUser = await persistence.getByUsername(dioBrando.username);
   if(retreivedUser !== undefined){
     const retreivedUserById = await persistence.getById(retreivedUser.id);
-    expect(retreivedUserById?.username).toBe(user.username)
+    expect(retreivedUserById?.username).toBe(dioBrando.username)
+  } else {
+    fail();
   }
+  expect(await persistence.getById("invalid id")).toBe(undefined);
+  expect(await persistence.getById("62d195716312dc5e105571a7")).toBe(undefined);
 });
