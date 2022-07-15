@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Tale152/express-server-template#readme",
   "dependencies": {
+    "@jscpd/badge-reporter": "^3.4.5",
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/mongoose": "^5.11.97",
@@ -132,5 +133,11 @@
     "setupFiles": [
       "<rootDir>/test/utils/setEnvVariables.ts"
     ]
+  },
+  "jscpd": {
+    "threshold": 5,
+    "reporters": ["html", "console"],
+    "mode": "strict",
+    "minTokens": 20
   }
 }
