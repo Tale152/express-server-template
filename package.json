@@ -114,7 +114,10 @@
   },
   "jscpd": {
     "threshold": 5,
-    "reporters": ["html", "console"],
+    "reporters": [
+      "html",
+      "console"
+    ],
     "mode": "strict",
     "minTokens": 20
   }
