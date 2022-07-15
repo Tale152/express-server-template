@@ -32,7 +32,7 @@ const verifyToken = (req: Request, res: Response, next: any) => {
       EncryptedToken.createInstance(token),
     );
     if (decodedToken !== undefined) {
-      req.query.requestUsername = decodedToken.username.trim();
+      req.query.requestId = decodedToken.id.trim();
       next();
       return;
     }

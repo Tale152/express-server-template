@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 
 import {EncryptedToken} from '../../core/entities/Token';
-import User from '../../core/entities/User';
+import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 
 export default function userLoginHandler(
@@ -17,7 +17,7 @@ export default function userLoginHandler(
       password.trim() !== ''
     ) {
       userUseCases.login(
-        User.createInstance(username.trim(), password.trim()),
+        new UnpersistedUser(username.trim(), password.trim()),
         onInvalidCredentials(res),
         onSuccess(res),
         onError(res),

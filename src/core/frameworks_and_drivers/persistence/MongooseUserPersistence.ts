@@ -1,4 +1,4 @@
-import User from '../../entities/User';
+import User, {UnpersistedUser} from '../../entities/User';
 import UserPersistence from '../../interface_adapters/persistence/UserPersistence';
 import UserModel from './mongoose/UserModel';
 
@@ -15,7 +15,7 @@ export default class MongooseUserPersistence implements UserPersistence {
     });
   }
 
-  createNew(user: User): Promise<boolean> {
+  createNew(user: UnpersistedUser): Promise<boolean> {
     const userToPersist = new UserModel({
       username: user.username,
       password: user.password,
@@ -31,7 +31,7 @@ export default class MongooseUserPersistence implements UserPersistence {
     return new Promise((resolve) => {
       UserModel.findOne({username: username}).then(async (user) => {
         user !== null
-          ? resolve(User.createInstance(user.username, user.password))
+          ? resolve(new User(user._id.toString(), user.username, user.password))
           : resolve(undefined);
       });
     });
@@ -41,7 +41,7 @@ export default class MongooseUserPersistence implements UserPersistence {
     return new Promise((resolve) => {
       UserModel.findById(id).then(async (user) => {
         user !== null
-          ? resolve(User.createInstance(user.username, user.password))
+          ? resolve(new User(user._id.toString(), user.username, user.password))
           : resolve(undefined);
       });
     });

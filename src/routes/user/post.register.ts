@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 
 import {EncryptedToken} from '../../core/entities/Token';
-import User from '../../core/entities/User';
+import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 import {isStringEmpty} from '../../core/utils/checks/stringChecks';
 
@@ -13,7 +13,7 @@ export default function userRegisterHandler(
     const password = req.body.password.trim();
     if (areParametersValid(username, password)) {
       userUseCases.register(
-        User.createInstance(username, password),
+        new UnpersistedUser(username, password),
         onUserAlreadyExists(res),
         onSuccess(res),
         onError(res),

@@ -1,19 +1,15 @@
 import {isStringEmpty} from '../utils/checks/stringChecks';
 
-export default class User {
-  private constructor(private usr: string, private psw: string) {
+export class UnpersistedUser {
+  constructor(private usr: string, private psw: string) {
     if (isStringEmpty(usr) || isStringEmpty(psw)) {
       throw new Error(
         'Both username and password has to be valid. Username: ' +
           usr +
-          ', Passoword: ' +
+          ', Password: ' +
           psw,
       );
     }
-  }
-
-  static createInstance(username: string, password: string) {
-    return new User(username, password);
   }
 
   get username(): string {
@@ -22,5 +18,18 @@ export default class User {
 
   get password(): string {
     return this.psw.trim();
+  }
+}
+
+export default class User extends UnpersistedUser {
+  constructor(private usrId: string, usr: string, psw: string) {
+    super(usr, psw);
+    if (isStringEmpty(usrId)) {
+      throw new Error('ID has to be valid. Provided: ' + usrId);
+    }
+  }
+
+  get id(): string {
+    return this.usrId.trim();
   }
 }

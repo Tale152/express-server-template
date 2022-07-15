@@ -1,5 +1,5 @@
 import {EncryptedToken, DecryptedToken} from '../entities/Token';
-import User from '../entities/User';
+import User, {UnpersistedUser} from '../entities/User';
 import EncryptionHandler from '../interface_adapters/security/EncryptionHandler';
 import UserPersistence from '../interface_adapters/persistence/UserPersistence';
 import TokenGenerator from '../interface_adapters/security/TokenGenerator';
@@ -31,7 +31,7 @@ export default class UserUseCases {
   }
 
   register(
-    user: User,
+    user: UnpersistedUser,
     onUserAlreadyExists: () => void,
     onSuccess: (token: EncryptedToken) => void,
     onError: () => void,
@@ -59,7 +59,7 @@ export default class UserUseCases {
   }
 
   login(
-    user: User,
+    user: UnpersistedUser,
     onInvalidCredentials: () => void,
     onSuccess: (token: EncryptedToken) => void,
     onError: () => void,
@@ -74,7 +74,7 @@ export default class UserUseCases {
             (comparationResult) => {
               if (comparationResult) {
                 const decryptedToken = DecryptedToken.createInstance(
-                  user.username,
+                  retreivedUser.id,
                 );
                 onSuccess(this.tokenGenerator.encrypt(decryptedToken));
               } else {
@@ -100,10 +100,10 @@ export default class UserUseCases {
 }
 
 async function encryptUser(
-  user: User,
+  user: UnpersistedUser,
   encryptionHandler: EncryptionHandler,
-): Promise<User> {
-  return User.createInstance(
+): Promise<UnpersistedUser> {
+  return new UnpersistedUser(
     user.username,
     await encryptionHandler.encrypt(user.password),
   );

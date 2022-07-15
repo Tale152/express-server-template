@@ -28,9 +28,9 @@ export default class JwtTokenGenerator implements TokenGenerator {
     try {
       const decoded = jwt.verify(token.value, this.secret);
       if (typeof decoded !== 'string') {
-        const username = decoded.username;
-        if (typeof username === 'string' && !isStringEmpty(username)) {
-          return DecryptedToken.createInstance(username);
+        const id = decoded.id;
+        if (typeof id === 'string' && !isStringEmpty(id)) {
+          return DecryptedToken.createInstance(id);
         }
       }
       return undefined;

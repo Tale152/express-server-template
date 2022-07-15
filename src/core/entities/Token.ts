@@ -19,10 +19,10 @@ export class EncryptedToken {
 }
 
 export class DecryptedToken {
-  private constructor(private usr: string) {
-    if (isStringEmpty(usr)) {
+  private constructor(private usrId: string) {
+    if (isStringEmpty(usrId)) {
       throw new Error(
-        'The value of the username has to be valid. Provided value: ' + usr,
+        'The value of the id has to be valid. Provided id: ' + usrId,
       );
     }
   }
@@ -31,17 +31,17 @@ export class DecryptedToken {
     return new DecryptedToken(usr.trim());
   }
 
-  get username(): string {
-    return this.usr;
+  get id(): string {
+    return this.usrId;
   }
 
   get payload(): DecryptedTokenPayload {
     return {
-      username: this.usr,
+      id: this.usrId,
     };
   }
 }
 
 interface DecryptedTokenPayload {
-  username: string;
+  id: string;
 }
