@@ -6,9 +6,11 @@ import {isStringEmpty} from '../../utils/checks/stringChecks';
 
 export default class JwtTokenGenerator implements TokenGenerator {
   private secret: string;
+  private validity: string;
 
   private constructor() {
     this.secret = EnvVariablesSingleton.instance.tokenSecret;
+    this.validity = EnvVariablesSingleton.instance.tokenValidity;
   }
 
   static createInstance() {
@@ -17,7 +19,7 @@ export default class JwtTokenGenerator implements TokenGenerator {
 
   encrypt(token: DecryptedToken): EncryptedToken {
     const tokenStr = jwt.sign(token.payload, this.secret, {
-      expiresIn: EnvVariablesSingleton.instance.tokenValidity,
+      expiresIn: this.validity,
     });
     return EncryptedToken.createInstance(tokenStr);
   }
@@ -25,11 +27,7 @@ export default class JwtTokenGenerator implements TokenGenerator {
   decode(token: EncryptedToken): DecryptedToken | undefined {
     try {
       const decoded = jwt.verify(token.value, this.secret);
-      if (
-        typeof decoded !== 'string' &&
-        decoded.exp !== undefined &&
-        decoded.exp * 1000 > new Date().getTime()
-      ) {
+      if (typeof decoded !== 'string') {
         const username = decoded.username;
         if (typeof username === 'string' && !isStringEmpty(username)) {
           return DecryptedToken.createInstance(username);
