@@ -1,5 +1,5 @@
 export const TEST_PORT_VARIABLE = 3000;
-export const TEST_DB_ADDRESS_VARIABLE = 'TODO';
+export const TEST_DB_ADDRESS_VARIABLE = 'mongodb://127.0.0.1/server_test_db';
 export const TEST_ENCRYPTION_SALT_VARIABLE = 10;
 export const TEST_TOKEN_SECRET_VARIABLE = 'test_secret';
 export const TEST_TOKEN_VALIDITY_VARIABLE = '1d';
