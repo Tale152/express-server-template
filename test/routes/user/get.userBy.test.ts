@@ -7,7 +7,7 @@ import {
 } from '../../utils/db_test_connection';
 import {user, registerUser} from '../utils';
 
-var token: EncryptedToken;
+let token: EncryptedToken;
 const usernameQuery = {
   username: user.username,
 };
@@ -47,7 +47,7 @@ test('Retreiving user by username', async () => {
 });
 
 test('Retreiving user by id', async () => {
-  var id: string = '';
+  let id: string = '';
   await supertest(server)
     .get('/user/get-by')
     .query(usernameQuery)

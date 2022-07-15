@@ -17,17 +17,17 @@ test('Login to an existing user', async () => {
     .get('/user/login')
     .query(user)
     .expect(200)
-    .then(res => expect(res.body.token).toBeDefined())
+    .then((res) => expect(res.body.token).toBeDefined());
 });
 
 test('Try to login to a non-existing user', async () => {
   await supertest(server)
     .get('/user/login')
     .query({
-      username: "hello",
-      password: "password"
+      username: 'hello',
+      password: 'password',
     })
-    .expect(401)
+    .expect(401);
 });
 
 test('Try to login with wrong credentials', async () => {
@@ -35,9 +35,9 @@ test('Try to login with wrong credentials', async () => {
     .get('/user/login')
     .query({
       username: user.username,
-      password: user.password + " "
+      password: user.password + ' ',
     })
-    .expect(401)
+    .expect(401);
 });
 
 test('Try to login with wrong arguments', async () => {
@@ -46,11 +46,11 @@ test('Try to login with wrong arguments', async () => {
     .query({
       username: user.username,
     })
-    .expect(400)
+    .expect(400);
   await supertest(server)
     .get('/user/login')
     .query({
       password: user.password,
     })
-    .expect(400)
+    .expect(400);
 });

@@ -10,7 +10,7 @@ export default class UserUseCases {
     private tokenGenerator: TokenGenerator,
     private encryptionHandler: EncryptionHandler,
   ) {
-    //does nothing
+    // does nothing
   }
 
   register(
