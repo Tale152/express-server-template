@@ -1,0 +1,21 @@
+name: Auto approve PRs by dependabot
+
+on: pull_request_target
+
+jobs:
+
+  test:
+    name: Execute tests
+    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+    uses: Tale152/express-server-template/.github/workflows/test-matrix.yml@master
+
+  autoapprove:
+    name: Auto-Approve a PR by dependabot
+    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto approve
+        uses: cognitedata/auto-approve-dependabot-action@v3.0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
