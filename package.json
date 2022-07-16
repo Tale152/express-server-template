@@ -82,7 +82,13 @@
         "error",
         2
       ],
-      "max-len": [2, { "code": 80, "ignorePattern": "^import .*" }]
+      "max-len": [
+        2,
+        {
+          "code": 80,
+          "ignorePattern": "^import .*"
+        }
+      ]
     }
   },
   "jest": {
