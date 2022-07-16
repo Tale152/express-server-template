@@ -1,13 +1,18 @@
-name: Auto approve PRs by dependabot
+name: On pull request
 
-on: pull_request_target
+on:
+  pull_request:
+    branches: [ '**' ]
 
 jobs:
 
   test:
-    name: Execute tests
-    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
     uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
+
+  cpd:
+    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
+    needs: test
+    uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
 
   autoapprove:
     name: Auto-Approve a PR by dependabot

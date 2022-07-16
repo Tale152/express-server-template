@@ -1,0 +1,13 @@
+name: On push
+
+on:
+  push:
+    branches: [ '**' ]
+
+jobs:
+
+  test:
+    uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
+
+  cpd:
+    uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master

@@ -11,7 +11,7 @@ name: ESLint security report
 
 on:
   workflow_run:
-    workflows: ["Continuous integration"]
+    workflows: ["On push", "On pull request"]
     branches:
       - master
     types:
