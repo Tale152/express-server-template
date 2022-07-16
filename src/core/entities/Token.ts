@@ -1,4 +1,4 @@
-import {isStringEmpty} from '../utils/checks/stringChecks';
+import {     isStringEmpty} from '../utils/checks/stringChecks';
 
 export class EncryptedToken {
   constructor(private val: string) {
