@@ -15,6 +15,7 @@ jobs:
   lint:
     name: Automatic linting
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
     steps:
     - uses: actions/checkout@v2
       with:
@@ -37,11 +38,13 @@ jobs:
   test:
     name: Execute tests
     needs: lint
+    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
     uses: Tale152/express-server-template/.github/workflows/test-matrix.yml@master
 
   cpd:
     name: Execute cpd
     needs: lint
+    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
