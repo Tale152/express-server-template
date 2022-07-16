@@ -7,7 +7,7 @@ jobs:
   test:
     name: Execute tests
     if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
-    uses: Tale152/express-server-template/.github/workflows/test-matrix.yml@master
+    uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
 
   autoapprove:
     name: Auto-Approve a PR by dependabot
