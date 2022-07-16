@@ -13,9 +13,9 @@ permissions:
 jobs:
 
   lint:
-    name: Automatic lint and commit
-    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
+    name: Automatic linting
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
     steps:
     - uses: actions/checkout@v2
       with:
