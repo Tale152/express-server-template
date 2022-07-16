@@ -8,7 +8,7 @@ mongoose
   .then(async () => {
     console.log('Connection to DB succesful');
     server.listen(envVariables.port, () => {
-      console.log('Server is listening on port ' + envVariables.port);
+      console.log('Server is listening on port ' + envVariables.port)
     });
   })
   .catch((err) => {

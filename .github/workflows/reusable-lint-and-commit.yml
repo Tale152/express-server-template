@@ -3,6 +3,10 @@ name: Perform lint automatically and commit changes
 on:
   workflow_call:
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   lint:
     name: Automatic lint and commit
