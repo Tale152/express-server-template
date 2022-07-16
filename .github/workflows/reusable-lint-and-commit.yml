@@ -1,32 +1,27 @@
-name: Test with multiple versions of node and mongodb
+name: Perform lint automatically and commit changes
 
 on:
   workflow_call:
 
 jobs:
-  test:
-    name: Execute tests
+  lint:
+    name: Automatic lint and commit
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        mongodb-version: [3.6, 4.0, 4.2]
     steps:
-    - name: Checkout current branch (full)
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       with:
-        fetch-depth: 0
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+        ref: ${{ github.head_ref }}
+    - name: Cache dependencies
+      uses: actions/cache@v2
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: package-lock.json
-    - name: Start MongoDB v${{ matrix.mongodb-version }}
-      uses: supercharge/mongodb-github-action@1.2.0
-      with:
-        mongodb-version: ${{ matrix.mongodb-version }}
+        path: ~/.npm
+        key: npm-${{ hashFiles('package-lock.json') }}
+        restore-keys: npm-
     - name: Install dependencies
       run: npm ci
-    - name: Run tests
-      run: npm test
+    - name: Perform linting
+      run: npm run lint
+    - name: Push changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Apply automatic lint changes
