@@ -1,6 +1,11 @@
 import {isStringEmpty} from '../utils/checks/stringChecks';
 
 export class UnpersistedUser {
+
+  /**
+   * @param {string} usr the username of the User
+   * @param {string} psw the password of the User
+   */
   constructor(private usr: string, private psw: string) {
     if (isStringEmpty(usr) || isStringEmpty(psw)) {
       throw new Error(
