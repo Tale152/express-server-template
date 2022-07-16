@@ -14,6 +14,18 @@ jobs:
     needs: test
     uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
 
+  compare-cov:
+    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
+    needs: test
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: vgrafe/couette@v0.123
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }
+
   autoapprove:
     name: Auto-Approve a PR by dependabot
     if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
