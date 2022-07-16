@@ -1,7 +1,6 @@
 import {isStringEmpty} from '../utils/checks/stringChecks';
 
 export class UnpersistedUser {
-
   /**
    * @param {string} usr the username of the User
    * @param {string} psw the password of the User
@@ -17,6 +16,9 @@ export class UnpersistedUser {
     }
   }
 
+  /**
+   * Returns the username of the User.
+   */
   get username(): string {
     return this.usr.trim();
   }
