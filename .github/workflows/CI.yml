@@ -22,9 +22,3 @@ jobs:
     needs: lint
     if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
     uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
-
-  cpd:
-    name: Execute cpd
-    needs: lint
-    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
-    uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
