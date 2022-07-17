@@ -1,7 +1,7 @@
 {
   "name": "express-server-template",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A template repository for an Express server, trying to provide a good architecture, good practices, CI and CD.",
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
