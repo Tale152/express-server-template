@@ -5,6 +5,7 @@ on:
 
 jobs:
   update-badge:
+    name: Update coverage badge
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,6 +27,6 @@ jobs:
       - name: Update badge
         run: npm run coverage:badge
       - name: Push changes
-        - uses: mikeal/publish-to-github-action@master
-          env:
+        uses: mikeal/publish-to-github-action@master
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
