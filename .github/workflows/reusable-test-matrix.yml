@@ -30,3 +30,13 @@ jobs:
       run: npm ci
     - name: Run tests
       run: npm test
+  update-badge:
+    needs: test
+    name: Update badge
+    steps:
+      - name: Update badge on README
+        run: npm run coverage:badge
+      - name: Push changes
+        - uses: mikeal/publish-to-github-action@master
+          env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
