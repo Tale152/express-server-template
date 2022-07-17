@@ -5,8 +5,19 @@ on:
     types: [published]
 
 jobs:
+  test:
+    uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
+
   deploy-docker-image:
+    needs: test
     uses: Tale152/express-server-template/.github/workflows/reusable-deploy-docker.yml@master
     secrets:
       DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
       DOCKERHUB_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
+
+  deploy-heroku:
+    needs: test
+    uses: Tale152/express-server-template/.github/workflows/reusable-deploy-heroku.yml@master
+    secrets:
+      HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+      HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
