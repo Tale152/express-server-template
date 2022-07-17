@@ -26,7 +26,7 @@ jobs:
         run: npm test
       - name: Update badge
         run: npm run coverage:badge
-      - id: Generate cpd report
+      - name: Generate cpd report
         run: npm run cpd
       - name: Get coverage percentage
         id: coverage_percentage
