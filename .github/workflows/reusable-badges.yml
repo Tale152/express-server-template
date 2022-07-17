@@ -34,6 +34,7 @@ jobs:
           source: "report/jscpd-badge.svg"
           target: ".github/badges/jscpd-badge.svg"
       - name: Push changes
-        uses: mikeal/publish-to-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions-go/push@master
+        with:
+          commit-message: '[Auto] Updated coverage badge and/or cpd badge'
+          author-name: GithubActions
