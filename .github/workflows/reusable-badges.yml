@@ -37,4 +37,5 @@ jobs:
         uses: actions-go/push@master
         with:
           commit-message: '[Auto] Updated coverage badge and/or cpd badge'
-          author-name: GithubActions
+          author-name: 'github-actions[bot]''
+          author-email: 'github-actions[bot]@users.noreply.github.com'
