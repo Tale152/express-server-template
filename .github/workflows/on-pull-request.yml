@@ -10,17 +10,31 @@ jobs:
     uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
 
   cpd:
-    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
+    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]}}
     needs: test
     uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
 
-  autoapprove:
-    name: Auto-Approve a PR by dependabot
-    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
-    needs: test
+  approve-dependabot-request:
+    if: ${{ github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]}}
+    name: Approve a PR by dependabot
+    needs: [test, cpd]
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - name: Auto approve
-        uses: cognitedata/auto-approve-dependabot-action@v3.0.1
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.1.1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
