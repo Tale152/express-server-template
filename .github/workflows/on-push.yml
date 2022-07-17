@@ -7,14 +7,14 @@ on:
 jobs:
 
   test:
-    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]}}
+    if: ${{ github.actor != 'dependabot[bot]' }} && {{ github.actor != 'dependabot-preview[bot]}}
     uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
 
   cpd:
-    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]}}
+    if: ${{ github.actor != 'dependabot[bot]' }} && {{ github.actor != 'dependabot-preview[bot]}}
     uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
 
   coverage-badge:
-    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]}}
+    if: ${{ github.actor != 'dependabot[bot]' }} && {{ github.actor != 'dependabot-preview[bot]}}
     needs: [test, cpd]
     uses: Tale152/express-server-template/.github/workflows/reusable-coverage-badge.yml@master

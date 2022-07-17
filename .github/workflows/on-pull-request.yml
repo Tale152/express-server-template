@@ -10,12 +10,12 @@ jobs:
     uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
 
   cpd:
-    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]}}
+    if: ${{ github.actor != 'dependabot[bot]' }} && {{ github.actor != 'dependabot-preview[bot]}}
     needs: test
     uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
 
   approve-dependabot-request:
-    if: ${{ github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]}}
+    if: ${{ github.actor == 'dependabot[bot]' }} || {{ github.actor == 'dependabot-preview[bot]}}
     name: Approve a PR by dependabot
     needs: [test, cpd]
     runs-on: ubuntu-latest
