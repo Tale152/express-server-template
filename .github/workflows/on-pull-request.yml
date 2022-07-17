@@ -19,7 +19,6 @@ jobs:
     name: Approve a PR by dependabot
     needs: [test, cpd]
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
