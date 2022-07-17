@@ -1,6 +1,6 @@
 import {
   createConnectionToTestDB,
-  dropConnectedTestDB,
+  dropAndDisconnectTestDB,
 } from '../../../utils/db_test_connection';
 import MongooseUserPersistence from '../../../../src/core/frameworks_and_drivers/persistence/MongooseUserPersistence';
 import {UnpersistedUser} from '../../../../src/core/entities/User';
@@ -22,7 +22,7 @@ beforeAll(async () => {
   });
   expect(res).toBeTruthy();
 });
-afterAll(dropConnectedTestDB);
+afterAll(dropAndDisconnectTestDB);
 
 const persistence = new MongooseUserPersistence();
 

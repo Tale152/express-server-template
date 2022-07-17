@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import server from '../../../src/server';
 import {
   createConnectionToTestDB,
-  dropConnectedTestDB,
+  dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
 import {user, registerUser} from '../utils';
 
@@ -10,7 +10,7 @@ beforeAll(async () => {
   await createConnectionToTestDB();
   await registerUser(server, user);
 });
-afterAll(dropConnectedTestDB);
+afterAll(dropAndDisconnectTestDB);
 
 test('Login to an existing user', async () => {
   await supertest(server)

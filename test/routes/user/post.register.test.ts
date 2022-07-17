@@ -3,13 +3,13 @@ import server from '../../../src/server';
 import {
   createConnectionToTestDB,
   resetDB,
-  dropConnectedTestDB,
+  dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
 import {user, registerUser} from '../utils';
 
 beforeAll(createConnectionToTestDB);
 beforeEach(resetDB);
-afterAll(dropConnectedTestDB);
+afterAll(dropAndDisconnectTestDB);
 
 test('Register a new user', async () => {
   await registerUser(server, user);

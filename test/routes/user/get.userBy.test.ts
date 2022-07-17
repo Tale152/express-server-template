@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import server from '../../../src/server';
 import {
   createConnectionToTestDB,
-  dropConnectedTestDB,
+  dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
 import {user, registerUser} from '../utils';
 
@@ -20,7 +20,7 @@ beforeAll(async () => {
   const token = await registerUser(server, user);
   tokenHeader.token = token.value;
 });
-afterAll(dropConnectedTestDB);
+afterAll(dropAndDisconnectTestDB);
 
 async function getBy(
   expect: number,
