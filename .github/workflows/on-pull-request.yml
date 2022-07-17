@@ -17,7 +17,7 @@ jobs:
   approve-dependabot-request:
     if: ${{ github.actor == 'dependabot[bot]' }}
     name: Approve a PR by dependabot
-    needs: [test, cpd]
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
