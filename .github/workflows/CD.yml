@@ -11,13 +11,17 @@ jobs:
   deploy-docker-image:
     needs: test
     uses: Tale152/express-server-template/.github/workflows/reusable-deploy-docker.yml@master
+    with:
+      image_name: ${{ github.event.repository.name }}
+      tag: ${{github.ref_name}}
     secrets:
-      DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
-      DOCKERHUB_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
+      registry_username: ${{secrets.DOCKERHUB_USERNAME}}
+      registry_password: ${{secrets.DOCKERHUB_PASSWORD}}
 
   deploy-heroku:
     needs: test
     uses: Tale152/express-server-template/.github/workflows/reusable-deploy-heroku.yml@master
+    with:
+      app_name: ${{ github.event.repository.name }}
     secrets:
-      HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-      HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
+      api_key: ${{secrets.HEROKU_API_KEY}}

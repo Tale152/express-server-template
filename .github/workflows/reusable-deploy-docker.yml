@@ -1,21 +1,47 @@
-name: Deploy image to Dockerhub
+name: Create and Publish Docker Image
 
 on:
   workflow_call:
-    secrets:
-      DOCKERHUB_USERNAME:
+    inputs:
+      image_name:
         required: true
-      DOCKERHUB_PASSWORD:
+        type: string
+      tag: 
+        type: string
+    secrets:
+      registry_username:
+        required: true
+      registry_password:
         required: true
 
 jobs:
-  deploy-image:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Login to DockerHub Registry
-        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: Build the latest Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{github.ref_name}}
-      - name: Push the latest Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{github.ref_name}}
+
+    steps:      
+      - uses: actions/checkout@v2
+
+      - name: Setup BuildX
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to the Registry
+        uses: docker/login-action@v1
+        with:
+          username: ${{secrets.registry_username}}
+          password: ${{secrets.registry_password}}
+
+      - name: Set the tag
+        run: |
+          if [ -z "${{inputs.tag}}" ]
+          then
+            echo "final_tag=latest" >> $GITHUB_ENV
+          else
+            echo "final_tag=${{inputs.tag}}" >> $GITHUB_ENV
+          fi
+
+      - name: Build and Push the Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{secrets.registry_username}}/${{inputs.image_name}}:${{env.final_tag}}

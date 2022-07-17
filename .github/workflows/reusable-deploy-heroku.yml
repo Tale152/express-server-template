@@ -2,10 +2,12 @@ name: Push Container to Heroku
 
 on:
   workflow_call:
-    secrets:
-      HEROKU_API_KEY:
+    inputs:
+      app_name:
         required: true
-      HEROKU_APP_NAME:
+        type: string
+    secrets:
+      api_key:
         required: true
 
 jobs:
@@ -15,13 +17,13 @@ jobs:
     - uses: actions/checkout@v1
     - name: Login to Heroku Container registry
       env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_API_KEY: ${{ secrets.api_key }}
       run: heroku container:login
     - name: Build container and push
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
+        HEROKU_API_KEY: ${{ secrets.api_key }}
+      run: heroku container:push -a ${{inputs.image_name}} web 
     - name: Release container
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+        HEROKU_API_KEY: ${{ secrets.api_key }}
+      run: heroku container:release -a ${{inputs.image_name}} web
