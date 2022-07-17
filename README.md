@@ -20,3 +20,4 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/Tale152/express-server-template)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Tale152/express-server-template?include_prereleases)
 ![GitHub Release Date](https://img.shields.io/github/release-date/Tale152/express-server-template)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Tale152/express-server-template/latest)
