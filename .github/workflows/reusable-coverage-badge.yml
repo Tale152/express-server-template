@@ -22,10 +22,26 @@ jobs:
           mongodb-version: 4.2
       - name: Install dependencies
         run: npm ci
-      - name: Generate report
+      - name: Generate coverage report
         run: npm test
       - name: Update badge
         run: npm run coverage:badge
+      - id: Generate cpd report
+        run: npm run cpd
+      - name: Get coverage percentage
+        id: coverage_percentage
+        uses: notiz-dev/github-action-json-property@release
+        with:
+            path: 'report/jscpd-report.json'
+            prop_path: 'statistics.total.percentage'
+      - name: Time badge
+        uses: RubbaBoy/BYOB@v1.3.0
+        with:
+          NAME: CPD
+          LABEL: 'CPD'
+          STATUS: ${{steps.coverage_percentage.outputs.prop}}
+          COLOR: 00EEFF
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Push changes
         uses: mikeal/publish-to-github-action@master
         env:

@@ -126,7 +126,8 @@
     "threshold": 5,
     "reporters": [
       "html",
-      "console"
+      "console",
+      "json"
     ],
     "mode": "strict"
   }
