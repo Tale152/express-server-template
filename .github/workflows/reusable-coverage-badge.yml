@@ -32,9 +32,10 @@ jobs:
         id: coverage_percentage
         uses: notiz-dev/github-action-json-property@release
         with:
-            path: 'report/jscpd-report.json'
-            prop_path: 'statistics.total.percentage'
-      - name: Time badge
+          path: 'report/jscpd-report.json'
+          prop_path: 'statistics.total.percentage'
+      - run: echo ${{steps.coverage_percentage.outputs.prop}}
+      - name: Create CPD badge
         uses: RubbaBoy/BYOB@v1.3.0
         with:
           NAME: CPD
