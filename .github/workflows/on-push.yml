@@ -18,8 +18,3 @@ jobs:
     if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
     needs: [test, cpd]
     uses: Tale152/express-server-template/.github/workflows/reusable-coverage-badge.yml@master
-
-  eslint-fix:
-    if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
-    needs: coverage-badge
-    uses: Tale152/express-server-template/.github/workflows/reusable-eslint-fix.yml@master
