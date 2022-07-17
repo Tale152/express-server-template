@@ -2,7 +2,7 @@ FROM node:alpine
 WORKDIR /server
 COPY package.json .
 COPY package-lock.json .
-RUN npm install
+RUN npm ci
 COPY tsconfig.json .
 COPY src ./src
 RUN npm run build
