@@ -1,4 +1,4 @@
-name: Update coverage badge
+name: Update badges
 
 on:
   workflow_call:
@@ -24,25 +24,12 @@ jobs:
         run: npm ci
       - name: Generate coverage report
         run: npm test
-      - name: Update badge
+      - name: Update coverage badge
         run: npm run coverage:badge
       - name: Generate cpd report
         run: npm run cpd
-      - name: Get coverage percentage
-        id: coverage_percentage
-        uses: notiz-dev/github-action-json-property@release
-        with:
-          path: 'report/jscpd-report.json'
-          prop_path: 'statistics.total.percentage'
-      - run: echo ${{steps.coverage_percentage.outputs.prop}}
-      - name: Create CPD badge
-        uses: RubbaBoy/BYOB@v1.3.0
-        with:
-          NAME: CPD
-          LABEL: 'CPD'
-          STATUS: ${{steps.coverage_percentage.outputs.prop}}
-          COLOR: 00EEFF
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Move cpd report badge file
+        run: mv ~/report/jscpd-badge.svg ~/.github/badges/jscpd-badge.svg
       - name: Push changes
         uses: mikeal/publish-to-github-action@master
         env:

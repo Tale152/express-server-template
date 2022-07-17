@@ -127,7 +127,8 @@
     "reporters": [
       "html",
       "console",
-      "json"
+      "json",
+      "badge"
     ],
     "mode": "strict"
   }
