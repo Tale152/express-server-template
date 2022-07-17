@@ -13,8 +13,8 @@
 ![](https://img.shields.io/badge/Coverage-97%25-83A603.svg?prefix=$coverage$)
 ![CPD](.github/badges/jscpd-badge.svg)  
 <font size=4>Automation:</font>  
-![CI](https://github.com/Tale152/express-server-template/actions/workflows/on-push.yml/badge.svg)
-![CD](https://github.com/Tale152/express-server-template/actions/workflows/on-release.yml/badge.svg)
+![CI](https://github.com/Tale152/express-server-template/actions/workflows/CI.yml/badge.svg)
+![CD](https://github.com/Tale152/express-server-template/actions/workflows/CD.yml/badge.svg)
 ![ESLint security report](https://github.com/Tale152/express-server-template/actions/workflows/eslint-security-report.yml/badge.svg)  
 <font size=4>Repository activities:</font>  
 ![GitHub last commit](https://img.shields.io/github/last-commit/Tale152/express-server-template)

@@ -3,18 +3,18 @@ name: CI
 on:
   push:
     branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
 
 jobs:
 
   test:
-    if: ${{ github.actor != 'dependabot[bot]' }}
     uses: Tale152/express-server-template/.github/workflows/reusable-test-matrix.yml@master
 
   cpd:
-    if: ${{ github.actor != 'dependabot[bot]' }}
     uses: Tale152/express-server-template/.github/workflows/reusable-cpd.yml@master
 
-  coverage-badge:
+  update-badges:
     if: ${{ github.actor != 'dependabot[bot]' }}
     needs: [test, cpd]
     uses: Tale152/express-server-template/.github/workflows/reusable-badges.yml@master
