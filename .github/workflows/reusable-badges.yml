@@ -28,8 +28,11 @@ jobs:
         run: npm run coverage:badge
       - name: Generate cpd report
         run: npm run cpd
-      - name: Move cpd report badge file
-        run: mv ${GITHUB_WORKSPACE}/report/jscpd-badge.svg ${GITHUB_WORKSPACE}/.github/badges/jscpd-badge.svg
+      - name: Update cpd badge
+        uses: canastro/copy-file-action@master
+        with:
+          source: "report/jscpd-badge.svg"
+          target: ".github/badges/jscpd-badge.svg"
       - name: Push changes
         uses: mikeal/publish-to-github-action@master
         env:
