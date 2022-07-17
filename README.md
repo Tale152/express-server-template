@@ -10,7 +10,6 @@
 ![GitHub](https://img.shields.io/github/license/Tale152/express-server-template)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTale152%2Fexpress-server-template.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FTale152%2Fexpress-server-template?ref=badge_shield)  
 <font size=4>Code quality:</font>  
-![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/Tale152/express-server-template)
 ![](https://img.shields.io/badge/Coverage-97%25-83A603.svg?prefix=$coverage$)
 ![CPD](.github/badges/jscpd-badge.svg)  
 <font size=4>Automation:</font>  
