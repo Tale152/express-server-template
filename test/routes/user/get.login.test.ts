@@ -4,18 +4,18 @@ import {
   createConnectionToTestDB,
   dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
-import {user, registerUser} from '../utils';
+import {testUser, registerUser} from '../utils';
 
 beforeAll(async () => {
   await createConnectionToTestDB();
-  await registerUser(server, user);
+  await registerUser(server, testUser);
 });
 afterAll(dropAndDisconnectTestDB);
 
 test('Login to an existing user', async () => {
   await supertest(server)
     .get('/user/login')
-    .query(user)
+    .query(testUser)
     .expect(200)
     .then((res) => expect(res.body.token).toBeDefined());
 });
@@ -34,8 +34,8 @@ test('Try to login with wrong credentials', async () => {
   await supertest(server)
     .get('/user/login')
     .query({
-      username: user.username,
-      password: user.password + ' ',
+      username: testUser.username,
+      password: testUser.password + ' ',
     })
     .expect(401);
 });
@@ -44,13 +44,13 @@ test('Try to login with wrong arguments', async () => {
   await supertest(server)
     .get('/user/login')
     .query({
-      username: user.username,
+      username: testUser.username,
     })
     .expect(400);
   await supertest(server)
     .get('/user/login')
     .query({
-      password: user.password,
+      password: testUser.password,
     })
     .expect(400);
 });

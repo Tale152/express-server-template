@@ -5,19 +5,19 @@ import {
   createConnectionToTestDB,
   dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
-import {user, registerUser} from '../utils';
+import {testUser, registerUser} from '../utils';
 
 const tokenHeader = {
   token: 'placeholder',
 };
 
 const usernameQuery = {
-  username: user.username,
+  username: testUser.username,
 };
 
 beforeAll(async () => {
   await createConnectionToTestDB();
-  const token = await registerUser(server, user);
+  const token = await registerUser(server, testUser);
   tokenHeader.token = token.value;
 });
 afterAll(dropAndDisconnectTestDB);
@@ -42,7 +42,7 @@ test('Trying to retrieve a User without a valid token', async () => {
 
 test('Retreiving an existing user by username', async () => {
   await getBy(200, usernameQuery, tokenHeader, (res) => {
-    expect(res.body.username).toEqual(user.username);
+    expect(res.body.username).toEqual(testUser.username);
     expect(res.body.id).toBeDefined();
   });
 });
@@ -60,7 +60,7 @@ test('Retreiving an existing user by id', async () => {
     id = res.body.id;
   });
   await getBy(200, {id: id}, tokenHeader, (res) => {
-    expect(res.body.username).toEqual(user.username);
+    expect(res.body.username).toEqual(testUser.username);
     expect(res.body.id).toEqual(id);
   });
 });

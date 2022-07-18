@@ -5,14 +5,14 @@ import {
   resetDB,
   dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
-import {user, registerUser} from '../utils';
+import {testUser, registerUser} from '../utils';
 
 beforeAll(createConnectionToTestDB);
 beforeEach(resetDB);
 afterAll(dropAndDisconnectTestDB);
 
 test('Register a new user', async () => {
-  await registerUser(server, user);
+  await registerUser(server, testUser);
 });
 
 async function registerInvalidCredentialsUser(user: any): Promise<void> {
@@ -43,6 +43,6 @@ test('Trying to register an user with invalid credentials', async () => {
 });
 
 test('Trying to register an already existing user', async () => {
-  await registerUser(server, user);
-  await supertest(server).post('/user/register').send(user).expect(406);
+  await registerUser(server, testUser);
+  await supertest(server).post('/user/register').send(testUser).expect(406);
 });
