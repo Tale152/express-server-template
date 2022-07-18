@@ -7,8 +7,8 @@ import {isStringEmpty} from '../../core/utils/checks/stringChecks';
  * @return {boolean} true if the parameters are valid, false otherwise
  */
 export function areUsersParametersValid(
-    username: string,
-    password: string
+  username: string,
+  password: string,
 ): boolean {
   return !isStringEmpty(username) && !isStringEmpty(password);
 }
