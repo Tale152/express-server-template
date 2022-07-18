@@ -7,7 +7,7 @@ import {isStringEmpty} from '../../core/utils/checks/stringChecks';
 import {onError} from '../_common/onError';
 
 /**
- * Handler of the POST /user/regist route
+ * Handler of the POST /user/register route
  * @param {UserUseCases} userUseCases use cases for the User
  * @return {Promise<void>} a promise that will be solved after
  * the request is handled
