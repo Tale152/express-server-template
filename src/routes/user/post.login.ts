@@ -4,9 +4,10 @@ import {EncryptedToken} from '../../core/entities/Token';
 import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 import {onError} from '../_common/onError';
+import {areUsersParametersValid} from '../_common/areUsersParametersValid';
 
 /**
- * Handler of the GET /user/login route
+ * Handler of the POST /user/login route
  * @param {UserUseCases} userUseCases use cases for the User
  * @return {Promise<void>} a promise that will be solved after
  * the request is handled
@@ -15,14 +16,9 @@ export default function userLoginHandler(
   userUseCases: UserUseCases,
 ): (req: Request, res: Response) => Promise<void> {
   return async (req: Request, res: Response) => {
-    const username = req.query.username;
-    const password = req.query.password;
-    if (
-      typeof username === 'string' &&
-      typeof password === 'string' &&
-      username.trim() !== '' &&
-      password !== ''
-    ) {
+    const username = req.body.username;
+    const password = req.body.password;
+    if (areUsersParametersValid(username, password)) {
       userUseCases.login(
         new UnpersistedUser(username.trim(), password),
         onInvalidCredentials(res),

@@ -14,16 +14,16 @@ afterAll(dropAndDisconnectTestDB);
 
 test('Login to an existing user', async () => {
   await supertest(server)
-    .get('/user/login')
-    .query(testUser)
+    .post('/user/login')
+    .send(testUser)
     .expect(200)
     .then((res) => expect(res.body.token).toBeDefined());
 });
 
 test('Try to login to a non-existing user', async () => {
   await supertest(server)
-    .get('/user/login')
-    .query({
+    .post('/user/login')
+    .send({
       username: 'hello',
       password: 'password',
     })
@@ -32,8 +32,8 @@ test('Try to login to a non-existing user', async () => {
 
 test('Try to login with wrong credentials', async () => {
   await supertest(server)
-    .get('/user/login')
-    .query({
+    .post('/user/login')
+    .send({
       username: testUser.username,
       password: testUser.password + ' ',
     })
@@ -42,14 +42,14 @@ test('Try to login with wrong credentials', async () => {
 
 test('Try to login with wrong arguments', async () => {
   await supertest(server)
-    .get('/user/login')
-    .query({
+    .post('/user/login')
+    .send({
       username: testUser.username,
     })
     .expect(400);
   await supertest(server)
-    .get('/user/login')
-    .query({
+    .post('/user/login')
+    .send({
       password: testUser.password,
     })
     .expect(400);

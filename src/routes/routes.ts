@@ -4,7 +4,7 @@ import BcryptEncryptionHandler from '../core/frameworks_and_drivers/security/Bcr
 import JwtTokenGenerator from '../core/frameworks_and_drivers/security/JwtTokenGenerator';
 import UserUseCases from '../core/use_cases/UserUseCases';
 import userRegisterHandler from './user/post.register';
-import userLoginHandler from './user/get.login';
+import userLoginHandler from './user/post.login';
 import userGetByHandler from './user/get.userBy';
 import {EncryptedToken} from '../core/entities/Token';
 
@@ -24,7 +24,7 @@ const userUseCases = new UserUseCases(
 export default function bindRoutes(server: Express): void {
   server.post('/user/register', userRegisterHandler(userUseCases));
 
-  server.get('/user/login', userLoginHandler(userUseCases));
+  server.post('/user/login', userLoginHandler(userUseCases));
 
   server.get('/user/get-by', verifyToken, userGetByHandler(userUseCases));
 }

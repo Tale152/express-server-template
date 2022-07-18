@@ -3,8 +3,8 @@ import {Request, Response} from 'express';
 import {EncryptedToken} from '../../core/entities/Token';
 import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
-import {isStringEmpty} from '../../core/utils/checks/stringChecks';
 import {onError} from '../_common/onError';
+import {areUsersParametersValid} from '../_common/areUsersParametersValid';
 
 /**
  * Handler of the POST /user/register route
@@ -18,7 +18,7 @@ export default function userRegisterHandler(
   return async (req: Request, res: Response) => {
     const username = req.body.username;
     const password = req.body.password;
-    if (areParametersValid(username, password)) {
+    if (areUsersParametersValid(username, password)) {
       userUseCases.register(
         new UnpersistedUser(username.trim(), password.trim()),
         onUserAlreadyExists(res),
@@ -29,16 +29,6 @@ export default function userRegisterHandler(
       res.status(400).send();
     }
   };
-}
-
-/**
- * Checks if the parameters for the request are valid.
- * @param {string} username the provided username
- * @param {string} password the provided password
- * @return {boolean} true if the parameters are valid, false otherwise
- */
-function areParametersValid(username: string, password: string): boolean {
-  return !isStringEmpty(username) && !isStringEmpty(password);
 }
 
 /**
