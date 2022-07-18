@@ -29,21 +29,29 @@ afterAll(dropAndDisconnectTestDB);
  * @param {number} expect http code expected as result
  * @param {any} [query] data to provide as query parameters
  * @param {any} [headers] data to provide as header
- * @param {(Response) => void} [then] callback to execute after
+ * @param {function(Response): void} [then] callback to execute after
  * the response
+ * @return {Promise<void>} A promise to understand when the function has ended
  */
 async function getBy(
   expect: number,
   query?: any,
   headers?: any,
   then?: (res: Response) => void,
-) {
-  await supertest(server)
-    .get('/user/get-by')
-    .query(query === undefined ? {} : query)
-    .set(headers === undefined ? {} : headers)
-    .expect(expect)
-    .then(then === undefined ? (_) => {} : then);
+): Promise<void> {
+  return new Promise((resolve) => {
+    supertest(server)
+      .get('/user/get-by')
+      .query(query === undefined ? {} : query)
+      .set(headers === undefined ? {} : headers)
+      .expect(expect)
+      .then((res) => {
+        if (then !== undefined) {
+          then(res);
+        }
+        resolve();
+      });
+  });
 }
 
 test('Trying to retrieve a User without a valid token', async () => {
