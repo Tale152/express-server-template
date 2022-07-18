@@ -4,7 +4,7 @@ import {EncryptedToken} from '../../core/entities/Token';
 import {UnpersistedUser} from '../../core/entities/User';
 import UserUseCases from '../../core/use_cases/UserUseCases';
 import {onError} from '../_common/onError';
-import {areUsersParametersValid} from '../_common/areUsersParametersValid';
+import {authenticationHandler} from '../_common/authentication';
 
 /**
  * Handler of the POST /user/login route
@@ -15,20 +15,16 @@ import {areUsersParametersValid} from '../_common/areUsersParametersValid';
 export default function userLoginHandler(
   userUseCases: UserUseCases,
 ): (req: Request, res: Response) => Promise<void> {
-  return async (req: Request, res: Response) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    if (areUsersParametersValid(username, password)) {
+  return authenticationHandler(
+    (username: string, password: string, res: Response) => {
       userUseCases.login(
         new UnpersistedUser(username.trim(), password),
         onInvalidCredentials(res),
         onSuccess(res),
         onError(res),
       );
-    } else {
-      res.status(400).send();
-    }
-  };
+    },
+  );
 }
 
 /**
