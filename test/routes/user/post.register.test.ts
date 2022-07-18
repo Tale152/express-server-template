@@ -15,6 +15,11 @@ test('Register a new user', async () => {
   await registerUser(server, testUser);
 });
 
+/**
+ * Utility function for testing route /user/register expecting 400 as response
+ * @param {any} user wron credentials for the user
+ * @return {Promise<void>} A promise to understand when the function has ended
+ */
 async function registerInvalidCredentialsUser(user: any): Promise<void> {
   return new Promise((resolve) => {
     supertest(server)
