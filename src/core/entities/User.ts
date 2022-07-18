@@ -1,5 +1,10 @@
 import {isStringEmpty} from '../utils/checks/stringChecks';
 
+/**
+ * Class representing an User that does not still have an ID because
+ * it isn't saved on a persistent storage.
+ * @see {@link User}
+ */
 export class UnpersistedUser {
   /**
    * @param {string} usr the username of the User
@@ -23,12 +28,25 @@ export class UnpersistedUser {
     return this.usr.trim();
   }
 
+  /**
+   * Returns the password of the User.
+   */
   get password(): string {
     return this.psw;
   }
 }
 
+/**
+ * Class representing an User that has an ID having already being
+ * stored in a persistent storage.
+ * @see {@link UnpersistedUser}
+ */
 export default class User extends UnpersistedUser {
+  /**
+   * @param {string} usrId the id of the User
+   * @param {string} usr the username of the User
+   * @param {string} psw the password of the User
+   */
   constructor(private usrId: string, usr: string, psw: string) {
     super(usr, psw);
     if (isStringEmpty(usrId)) {
@@ -36,6 +54,9 @@ export default class User extends UnpersistedUser {
     }
   }
 
+  /**
+   * Returns the id of the User.
+   */
   get id(): string {
     return this.usrId;
   }
