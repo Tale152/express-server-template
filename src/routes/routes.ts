@@ -17,6 +17,10 @@ const userUseCases = new UserUseCases(
   encryptionHandler,
 );
 
+/**
+ * Binds rutes to the provider Express server instance.
+ * @param {Express} server the Express instance to bind routes to
+ */
 export default function bindRoutes(server: Express): void {
   server.post('/user/register', userRegisterHandler(userUseCases));
 
