@@ -6,6 +6,9 @@
 ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
 ![Jest](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)  
+<font size=4>Deploy:</font>  
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)  
 <font size=4>License:</font>  
 ![GitHub](https://img.shields.io/github/license/Tale152/express-server-template)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTale152%2Fexpress-server-template.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FTale152%2Fexpress-server-template?ref=badge_shield)  
