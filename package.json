@@ -1,6 +1,6 @@
 {
   "name": "express-server-template",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A template repository for an Express server, trying to provide a good architecture, good practices, CI and CD.",
   "main": "dist/index.js",
   "scripts": {
