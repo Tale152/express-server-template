@@ -119,7 +119,7 @@
       }
     },
     "setupFiles": [
-      "<rootDir>/test/utils/setEnvVariables.ts"
+      "<rootDir>/test/utils/set_env_variables.ts"
     ]
   },
   "jscpd": {
