@@ -6,6 +6,7 @@ import {
   dropAndDisconnectTestDB,
 } from '../../utils/db_test_connection';
 import {testUser, registerUser} from '../utils';
+import {isStringEmpty} from '../../../src/core/utils/checks/stringChecks';
 
 const tokenHeader = {
   token: 'placeholder',
@@ -22,6 +23,15 @@ beforeAll(async () => {
 });
 afterAll(dropAndDisconnectTestDB);
 
+/**
+ * Utility function to avoid code repetition while testing
+ * route /user/get-by.
+ * @param {number} expect http code expected as result
+ * @param {any} [query] data to provide as query parameters
+ * @param {any} [headers] data to provide as header
+ * @param {(Response) => void} [then] callback to execute after
+ * the response
+ */
 async function getBy(
   expect: number,
   query?: any,
@@ -35,6 +45,7 @@ async function getBy(
     .expect(expect)
     .then(then === undefined ? (_) => {} : then);
 }
+
 test('Trying to retrieve a User without a valid token', async () => {
   await getBy(401, usernameQuery);
   await getBy(401, usernameQuery, {token: 'abc123'});
@@ -57,6 +68,8 @@ test('Retreiving an existing user by id', async () => {
   let id: string = '';
   await getBy(200, usernameQuery, tokenHeader, (res) => {
     expect(res.body.id).toBeDefined();
+    expect(typeof res.body.id === 'string').toBeTruthy();
+    expect(isStringEmpty(res.body.id)).toBeFalsy();
     id = res.body.id;
   });
   await getBy(200, {id: id}, tokenHeader, (res) => {
