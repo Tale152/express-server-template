@@ -1,10 +1,10 @@
 import User from '../../../src/core/entities/User';
+import {addExtraSpaces} from '../../utils/bad_arguments';
 
 const emptyString: string = '';
 const validId: string = 'abc123';
 const validUsername: string = 'user';
 const validPassword: string = 'password';
-const extraSpaces: string = '\t  \t';
 
 test('An User must have a valid id', () => {
   // @ts-ignore
@@ -46,14 +46,16 @@ test('The username should not contain extra spaces', () => {
   expect(user.username).toEqual(validUsername);
 });
 
+/**
+ * Utility function expecting new User to throw exception.
+ * @param {string} id the ID of the User to instantiate
+ * @param {string} username the username of the User to instantiate
+ * @param {string} password the password of the User to instantiate
+ */
 function assertUserThrowsOnNewInstance(
   id: string,
   username: string,
   password: string,
 ): void {
   expect(() => new User(id, username, password)).toThrow();
-}
-
-function addExtraSpaces(str: string): string {
-  return extraSpaces + str + extraSpaces;
 }
