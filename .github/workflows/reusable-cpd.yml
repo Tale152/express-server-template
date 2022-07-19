@@ -2,6 +2,7 @@ name: Perform cpd with error if treshhold isn't met
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   cpd:
