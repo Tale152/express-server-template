@@ -20,7 +20,8 @@
 <font size=4>Automation:</font>  
 ![CI](https://github.com/Tale152/express-server-template/actions/workflows/CI.yml/badge.svg)
 ![CD](https://github.com/Tale152/express-server-template/actions/workflows/CD.yml/badge.svg)
-![ESLint security report](https://github.com/Tale152/express-server-template/actions/workflows/eslint-security-report.yml/badge.svg)  
+![ESLint security report](https://github.com/Tale152/express-server-template/actions/workflows/eslint-security-report.yml/badge.svg)
+[![pages-build-deployment](https://github.com/Tale152/express-server-template/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Tale152/express-server-template/actions/workflows/pages/pages-build-deployment)  
 <font size=4>Repository activities:</font>  
 ![GitHub last commit](https://img.shields.io/github/last-commit/Tale152/express-server-template)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Tale152/express-server-template?include_prereleases)
