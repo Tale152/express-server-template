@@ -1,5 +1,9 @@
 # Express server template
+I'm tired of spending a lot of time setting up an Express server whenever the need arises so here we are.  
+I've created this template repository primarily for myself, but I hope this might help other people save time as well; feel free to use this template for your awesome projects.  
 
+I've set things up adding everything I know trying to focus on best practices, code quality, maintainability and automation.  
+If you have suggestions or ideas just let me know by creating an issue :)  
 ## About this repository
 <font size=4>Technologies used:</font>  
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
