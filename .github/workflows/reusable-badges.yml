@@ -2,6 +2,7 @@ name: Update badges
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   update-badge:

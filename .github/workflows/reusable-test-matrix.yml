@@ -2,6 +2,7 @@ name: Test with multiple versions of node and mongodb
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   test:
