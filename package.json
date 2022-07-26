@@ -46,7 +46,7 @@
     "@types/node": "^18.0.6",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
-    "@typescript-eslint/parser": "^5.30.7",
+    "@typescript-eslint/parser": "^5.31.0",
     "concurrently": "^7.3.0",
     "coverage-badge-creator": "^1.0.12",
     "eslint": "^8.20.0",
