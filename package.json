@@ -48,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "concurrently": "^7.3.0",
-    "coverage-badge-creator": "^1.0.12",
+    "coverage-badge-creator": "^1.0.13",
     "eslint": "^8.20.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^28.1.3",
