@@ -1,0 +1,30 @@
+{
+  "entryFile": "src/index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "public",
+    "specVersion": 3,
+    "info": {
+      "title": "Express Server Advanced Template API",
+      "version": "1.0.0",
+      "description": "A TypeScript Express server with authentication and token management"
+    },
+    "host": "localhost:8080",
+    "schemes": ["http"],
+    "basePath": "/",
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "src/controllers",
+    "middleware": "express"
+  }
+}

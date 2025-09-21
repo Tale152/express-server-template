@@ -1,21 +1,68 @@
+version: '3.8'
+
 services:
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - PORT=8000
-      - DB_ADDRESS=mongodb://database:27017/server_template
-      - ENCRYPTION_SALT=10
-      - TOKEN_SECRET=dev_secret
-      - TOKEN_VALIDITY=1d
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb-rs
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--quiet"]
     ports:
-      - 8000:8000
-    image: server
-  database:
-    image: mongo
+      - "27017:27017"
     volumes:
-      - database_data:/data/db
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=express-server-advanced
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  mongodb-init:
+    image: mongo:7.0
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: "no"
+    command: >
+      mongosh --host mongodb:27017 --quiet --eval "
+        try {
+          rs.initiate({
+            _id: 'rs0',
+            members: [{ _id: 0, host: 'mongodb:27017' }]
+          });
+          print('Replica set initiated');
+        } catch(e) {
+          print('Replica set already initiated');
+        }
+      "
+
+  server:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_NAME=Express Server
+      - NODE_ENV=production
+      - PORT=8080
+      - CORS_ORIGIN=http://localhost:3000
+      - DATABASE_URL=mongodb://mongodb:27017/express-server-advanced?replicaSet=rs0
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - JWT_EXPIRES_IN=15m
+      - JWT_REFRESH_SECRET=your-super-secret-refresh-key-change-in-production
+      - JWT_REFRESH_EXPIRES_IN=7d
+    depends_on:
+      mongodb-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
-  database_data:
+  mongodb_data:
+
