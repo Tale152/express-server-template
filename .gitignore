@@ -64,5 +64,4 @@ coverage/
 .eslintcache
 
 # MongoDB data directories
-mongodb/
 scripts/mongodb/
