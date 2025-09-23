@@ -12,6 +12,7 @@ A production-ready Express.js template with TypeScript, MongoDB, and comprehensi
 - [Docker Setup](#-docker-setup)
 - [Architecture Layers](#architecture-layers)
 - [Testing](#-testing)
+- [Continuous Integration (CI)](#continuous-integration-ci)
 - [Security Implementation](#security-implementation)
 - [API Documentation & Testing](#api-documentation--testing)
 
@@ -42,7 +43,7 @@ This documentation ensures that both human developers and AI assistants can quic
 ### **Prerequisites**
 - Node.js (v18+ recommended)
 - MongoDB (for local development)
-- Docker & Docker Compose (optional, for containerized setup)
+- Docker & Docker Compose (required for testing, optional for development)
 
 ### **Local Development Setup**
 
@@ -59,12 +60,18 @@ This documentation ensures that both human developers and AI assistants can quic
    
    **Note**: The replica set is required for MongoDB transactions. On Windows, you may need to set up MongoDB manually or use Docker.
 
-3. **Start Development Server**
+3. **Run Tests** (Optional - to verify setup)
+   ```bash
+   # Tests automatically start their own Docker containers if needed
+   npm test
+   ```
+
+4. **Start Development Server**
    ```bash
    npm run dev
    ```
 
-4. **Access the Application**
+5. **Access the Application**
    - **API Server**: `http://localhost:8080`
    - **Health Check**: `http://localhost:8080/health`
    - **API Documentation**: `http://localhost:8080/docs`
@@ -74,10 +81,27 @@ If you prefer using Docker for a complete isolated environment:
 
 ```bash
 # Start everything with docker-compose (includes MongoDB)
+npm run dev:compose
+# Or directly with docker-compose
 docker-compose up --build
 
 # Access at http://localhost:8080
 ```
+
+### **MongoDB Setup Comparison**
+
+**Development (Local MongoDB):**
+- Uses `scripts/mongo-rs.js` to manage local MongoDB replica set
+- Data persisted in `scripts/mongodb/` directory
+- Runs on standard port 27017
+- Manual start/stop with `npm run mongo:start/stop`
+
+**Testing (Docker Containers):**
+- Uses `docker-compose.test.yml` for isolated test environment
+- Temporary data (uses tmpfs for speed)
+- Runs on port 27017 (separate network)
+- Automatic management by test scripts
+- Zero configuration required for developers
 
 ## Features Overview
 
@@ -130,6 +154,7 @@ docker-compose up --build
 ### **Development Scripts**
 ```bash
 npm run dev              # Start development server with hot reload and auto-compilation
+npm run dev:compose      # Start complete development environment with Docker Compose (includes MongoDB)
 npm run build            # Build production-ready application (generates OpenAPI spec + compiles TypeScript)
 npm start                # Start production server from compiled JavaScript files
 ```
@@ -138,6 +163,9 @@ npm start                # Start production server from compiled JavaScript file
 ```bash
 npm run mongo:start      # Start local MongoDB replica set for development
 npm run mongo:stop       # Stop local MongoDB replica set
+
+npm run mongo:test:start # Start MongoDB test containers (Docker)
+npm run mongo:test:stop  # Stop MongoDB test containers
 ```
 
 ### **Code Quality & Analysis**
@@ -148,14 +176,22 @@ npm run cpd              # Run copy-paste detection analysis with jscpd (identif
 ```
 
 ### **Testing Scripts**
+All testing scripts automatically manage Docker test containers - no manual setup required!
+
 ```bash
-npm test                 # Run all tests (unit + integration)
-npm run test:unit        # Run only unit tests
-npm run test:integration # Run only integration tests
-npm run test:watch       # Run tests in watch mode (re-runs on file changes)
-npm run test:coverage    # Run tests with coverage report
-npm run test:ci          # Run tests in CI mode (non-interactive, with coverage)
+npm test                 # Run all tests (auto-starts test containers if needed)
+npm run test:unit        # Run only unit tests (auto-starts test containers if needed)
+npm run test:integration # Run only integration tests (auto-starts test containers if needed)
+npm run test:watch       # Run tests in watch mode (auto-starts test containers if needed)
+npm run test:coverage    # Run tests with coverage report (auto-starts test containers if needed)
+npm run test:ci          # Run tests in CI mode (auto-starts test containers if needed)
 ```
+
+**How Auto-Test Management Works:**
+- **First run**: Automatically detects missing test containers and starts them
+- **Subsequent runs**: Detects running containers and proceeds immediately  
+- **Zero configuration**: Just run `npm test` and everything works
+- **Manual control**: Use `npm run mongo:test:start/stop` for manual container management
 
 ## Project Structure
 
@@ -179,17 +215,24 @@ npm run test:ci          # Run tests in CI mode (non-interactive, with coverage)
 │       ├── JWTService.ts       # JWT token management
 │       ├── PasswordService.ts  # Password hashing utilities
 │       └── TimestampProducer.ts # Testable time abstraction
+├── scripts/                      # Development and utility scripts
+│   ├── auto-test.js             # Automatic test container management
+│   ├── mongo-rs.js              # Local MongoDB replica set management
+│   └── mongodb/                 # Local MongoDB data directory
 ├── tests/                        # Test suites (unit & integration)
 ├── docker-compose.yml           # Development environment setup
+├── docker-compose.test.yml      # Test environment with MongoDB replica set
 ├── Dockerfile                   # Production container configuration
 └── postman/                     # API testing collections
 ```
 
 ## Docker Setup
 
-This template includes complete Docker containerization with two main approaches:
+This template includes complete Docker containerization with multiple configurations:
+
 - **Dockerfile**: Production-ready container configuration for deployment in remote environments (staging, production, cloud platforms)
-- **docker-compose.yml**: Development environment setup for local testing and development with MongoDB integration
+- **docker-compose.yml**: Development environment setup for local testing and development with MongoDB integration  
+- **docker-compose.test.yml**: Isolated test environment with dedicated MongoDB replica set for testing
 
 ### **Quick Start with docker-compose**
 
@@ -269,7 +312,29 @@ Reusable services and utilities for cross-cutting concerns.
 
 ## Testing
 
-This template provides a comprehensive testing framework built on Jest with TypeScript support, covering unit tests, integration tests, and end-to-end API testing.
+This template provides a comprehensive testing framework built on Jest with TypeScript support, featuring **automatic Docker container management** for seamless test execution.
+
+### **Automatic Test Environment Management**
+
+The testing system automatically manages Docker containers for a realistic test environment:
+
+**Zero-Configuration Testing:**
+- **Smart Detection**: Automatically detects if test containers are running
+- **Auto-Start**: Launches MongoDB replica set containers if needed
+- **Immediate Execution**: Proceeds directly to testing if containers are already running
+- **Isolated Environment**: Uses dedicated test database (port 27017) separate from development
+- **Clean State**: Database is cleared before each test run for consistent results
+
+**Workflow:**
+```bash
+# First time or after container stop
+npm test  # → Detects missing containers → Starts them → Runs tests
+
+# Subsequent runs (containers still running)  
+npm test  # → Detects running containers → Runs tests immediately
+```
+
+### **Test Categories**
 
 ### **Unit Testing**
 
@@ -282,13 +347,16 @@ Unit tests focus on testing individual components in isolation with comprehensiv
 
 ### **Integration Testing**
 
-Integration tests verify complete API workflows using real HTTP requests:
+Integration tests verify complete API workflows using real HTTP requests with Docker-based test environment:
 
 **Key Features:**
 - **End-to-End Testing**: Full request/response cycle testing
-- **Real Database**: Uses MongoDB Memory Server for realistic testing
+- **Real Database**: Uses Docker MongoDB replica set for realistic testing environment
+- **Automatic Setup**: Test containers auto-start when needed, no manual configuration required
+- **Isolated Environment**: Dedicated test database separate from development data
 - **Authentication Flows**: Complete auth scenarios including token refresh
-- **Transaction Testing**: Database transaction rollback verification
+- **Transaction Testing**: Database transaction rollback verification with real MongoDB replica set
+- **Container Management**: Automatic Docker container lifecycle management
 
 ### **Coverage Reports**
 
@@ -296,6 +364,61 @@ The template generates comprehensive coverage reports in multiple formats:
 - **HTML Report**: `coverage/lcov-report/index.html` (interactive web interface)
 - **LCOV Format**: `coverage/lcov.info` (for CI/CD integration)
 - **JSON Summary**: `coverage/coverage-summary.json` (programmatic access)
+
+### **Test Environment Advantages**
+
+**Docker-based vs In-Memory Testing:**
+- **Production Parity**: Real MongoDB replica set mirrors production environment exactly
+- **Transaction Testing**: Full ACID compliance testing with actual replica set
+- **Performance**: Faster startup compared to in-memory alternatives
+- **Reliability**: Consistent behavior across different machines and CI environments
+- **Isolation**: Complete separation between test and development databases
+- **Debugging**: Ability to inspect test database state with standard MongoDB tools
+
+## Continuous Integration (CI)
+
+This project includes a comprehensive GitHub Actions workflow for automated testing and quality assurance.
+
+### **CI Pipeline Features**
+
+The CI pipeline (`.github/workflows/ci.yml`) automatically runs on:
+- **Push events** to `master` and `develop` branches
+- **Pull requests** targeting `master` and `develop` branches
+
+### **Automated Quality Gates**
+
+**Build & Dependencies:**
+- **Node.js 18**: Consistent runtime environment
+- **Cache optimization**: npm dependencies cached for faster builds
+- **TypeScript compilation**: Ensures code compiles without errors
+- **OpenAPI generation**: Validates API documentation consistency
+
+**Code Quality Checks:**
+- **ESLint analysis**: Code style and quality enforcement
+- **Copy-paste detection**: Identifies code duplication for refactoring opportunities
+- **Build verification**: Ensures production build succeeds
+
+**Comprehensive Testing:**
+- **Docker-based testing**: Identical environment to local development
+- **MongoDB replica set**: Production-like database testing
+- **Full test suite**: Unit and integration tests with coverage reporting
+- **Automatic cleanup**: Test containers properly cleaned up after execution
+
+### **CI Environment Benefits**
+
+**Consistency & Reliability:**
+- **Identical Setup**: Same Docker-based MongoDB as local development
+- **Isolated Environment**: Each CI run gets fresh containers
+- **Zero Configuration**: No manual setup required for contributors
+- **Fast Execution**: Docker containers start quickly in GitHub Actions
+
+**Quality Assurance:**
+- **Automated Testing**: Every push and PR tested automatically
+- **Multiple Quality Gates**: Build, lint, duplicate detection, and tests
+- **Coverage Reporting**: Comprehensive test coverage analysis
+- **Fail-Fast Approach**: Early detection of issues in the development cycle
+
+The CI system leverages the same testing infrastructure used locally, ensuring consistent behavior between development and CI environments.
 
 ## Security Implementation
 

@@ -1,4 +1,3 @@
-import { MongoMemoryReplSet } from 'mongodb-memory-server';
 import { EnvVars } from '../src/app';
 import { DatabaseConnectionMongoDB } from '../src/domain/mongodb/DatabaseConnectionMongoDB';
 import { createLogger } from '../src/setup/logger';
@@ -6,47 +5,29 @@ import mongoose from 'mongoose';
 
 declare global {
   var __MONGO_URI__: string;
-  var __MONGO_DB__: MongoMemoryReplSet;
 }
 
 export default async function globalSetup() {
-  const mongoServer = await MongoMemoryReplSet.create({
-    replSet: {
-      count: 1, // Single node replica set
-      dbName: 'test-db',
-      storageEngine: 'wiredTiger',
-    },
-    instanceOpts: [
-      {
-        storageEngine: 'wiredTiger',
-        port: undefined, // Let it choose a port
-      },
-    ],
-  });
-
-  const mongoUri = mongoServer.getUri();
-  
-  // Add a small delay to ensure the replica set is fully ready
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  // MongoDB URI for test container (should be running on port 27017)
+  const mongoUri = 'mongodb://localhost:27017/test-db?replicaSet=rs0';
   
   // Store the URI in a global variable that tests can access
-  const globals = globalThis as typeof globalThis & { 
-    __MONGO_URI__: string; 
-    __MONGO_DB__: MongoMemoryReplSet 
-  };
+  const globals = globalThis as typeof globalThis & { __MONGO_URI__: string };
   globals.__MONGO_URI__ = mongoUri;
-  globals.__MONGO_DB__ = mongoServer;
-  
-  // Create test environment variables (similar to integration setup)
-  const envVars = createTestEnvVars(mongoUri);
-  
-  // Create logger for setup operations
-  const logger = createLogger(envVars);
-  
-  // Use DatabaseConnectionMongoDB class for consistency with main app
-  const dbConnection = new DatabaseConnectionMongoDB();
   
   try {
+    console.log('Connecting to test database...');
+    console.log('Make sure to run: npm run mongo:test:start');
+    
+    // Create test environment variables
+    const envVars = createTestEnvVars(mongoUri);
+    
+    // Create logger for setup operations
+    const logger = createLogger(envVars);
+    
+    // Use DatabaseConnectionMongoDB class for consistency with main app
+    const dbConnection = new DatabaseConnectionMongoDB();
+    
     // Connect to the test database using our architecture
     await dbConnection.connect(envVars, logger);
     
@@ -59,9 +40,11 @@ export default async function globalSetup() {
     // Disconnect after setup (tests will create their own connections)
     await dbConnection.disconnect(envVars, logger);
     
-    console.log('Global MongoDB Memory Server started:', mongoUri);
+    console.log('Test database setup completed successfully');
   } catch (error) {
-    console.error('Error during global setup:', error);
+    console.error('❌ Failed to connect to test database');
+    console.error('Make sure the test container is running: npm run mongo:test:start');
+    console.error('Error details:', error);
     throw error;
   }
 }

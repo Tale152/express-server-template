@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { Application } from 'express';
-import { createTestCredentials } from './helpers';
-import { ProjectResponse } from '../../src/dto/project/ProjectResponse';
-import { ProjectListResponse } from '../../src/dto/project/ProjectListResponse';
+import { createTestCredentials } from '../../helpers';
+import { ProjectResponse } from '../../../../src/dto/project/ProjectResponse';
+import { ProjectListResponse } from '../../../../src/dto/project/ProjectListResponse';
 
 /**
  * Project test utilities

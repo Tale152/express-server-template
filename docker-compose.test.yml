@@ -1,0 +1,42 @@
+services:
+  mongodb-test:
+    image: mongo:7.0
+    container_name: mongodb-test-rs
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--quiet"]
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=test-db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: "no"
+    tmpfs:
+      - /data/db
+
+  mongodb-test-init:
+    image: mongo:7.0
+    depends_on:
+      mongodb-test:
+        condition: service_healthy
+    restart: "no"
+    network_mode: "host"
+    command: >
+      mongosh --host localhost:27017 --quiet --eval "
+        try {
+          rs.initiate({
+            _id: 'rs0',
+            members: [{ _id: 0, host: 'localhost:27017' }]
+          });
+          print('Test replica set initiated');
+        } catch(e) {
+          print('Test replica set already initiated');
+        }
+      "
+
+networks:
+  default:
+    name: express-server-test-network

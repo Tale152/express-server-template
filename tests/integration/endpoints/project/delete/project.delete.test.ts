@@ -4,7 +4,7 @@ import { validateErrorResponse } from '../../../helpers';
 import { 
   createUserAndGetToken,
   createProjectViaAPI 
-} from '../../../projectHelpers';
+} from '../projectHelpers';
 
 describe('Project Delete Integration Tests', () => {
   let context: IntegrationTestContext;
@@ -147,7 +147,7 @@ describe('Project Delete Integration Tests', () => {
       
       // Verify all projects exist in list
       const initialListResponse = await request(context.app)
-        .get('/project')
+        .get('/project/list')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
       
@@ -162,7 +162,7 @@ describe('Project Delete Integration Tests', () => {
       
       // Verify project list is updated
       const updatedListResponse = await request(context.app)
-        .get('/project')
+        .get('/project/list')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
       
@@ -244,7 +244,7 @@ describe('Project Delete Integration Tests', () => {
       
       // Verify all projects are deleted
       const listResponse = await request(context.app)
-        .get('/project')
+        .get('/project/list')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
       
@@ -361,7 +361,7 @@ describe('Project Delete Integration Tests', () => {
       
       // Verify user2's project list is unchanged
       const user2ListResponse = await request(context.app)
-        .get('/project')
+        .get('/project/list')
         .set('Authorization', `Bearer ${token2}`)
         .expect(200);
       

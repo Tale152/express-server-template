@@ -1,0 +1,7 @@
+node_modules/
+build/
+coverage/
+logs/
+mongodb/
+scripts/*.js
+*.js

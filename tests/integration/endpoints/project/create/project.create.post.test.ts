@@ -5,7 +5,7 @@ import {
   createTestProject, 
   validateProjectResponse, 
   createUserAndGetToken 
-} from '../../../projectHelpers';
+} from '../projectHelpers';
 
 describe('Project Create Integration Tests', () => {
   let context: IntegrationTestContext;
