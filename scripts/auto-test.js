@@ -15,7 +15,7 @@ const COMPOSE_FILE = 'docker-compose.test.yml';
  */
 function areTestContainersRunning() {
   try {
-    const output = execSync(`docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_FILE} ps -q`, {
+    const output = execSync(`docker compose -p ${PROJECT_NAME} -f ${COMPOSE_FILE} ps -q`, {
       encoding: 'utf-8',
       stdio: 'pipe'
     });
@@ -34,7 +34,7 @@ function areTestContainersRunning() {
 function startTestContainers() {
   console.log('Starting test containers...');
   try {
-    execSync(`docker-compose -p ${PROJECT_NAME} -f ${COMPOSE_FILE} up -d`, {
+    execSync(`docker compose -p ${PROJECT_NAME} -f ${COMPOSE_FILE} up -d`, {
       stdio: 'inherit'
     });
     console.log('Test containers started successfully');
